@@ -154,17 +154,17 @@ class Formatter implements FormatterInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'tester.exercise_completed.before' => 'onBeforeExercise',
-            'tester.exercise_completed.after' => 'onAfterExercise',
-            'tester.suite_tested.before' => 'onBeforeSuiteTested',
-            'tester.suite_tested.after' => 'onAfterSuiteTested',
-            'tester.feature_tested.before' => 'onBeforeFeatureTested',
-            'tester.feature_tested.after' => 'onAfterFeatureTested',
-            'tester.scenario_tested.before' => 'onBeforeScenarioTested',
-            'tester.scenario_tested.after' => 'onAfterScenarioTested',
-            'tester.outline_tested.before' => 'onBeforeOutlineTested',
-            'tester.outline_tested.after' => 'onAfterOutlineTested',
-            'tester.step_tested.after' => 'onAfterStepTested',
+            'tester.exercise_completed.before'  => 'onBeforeExercise',
+            'tester.exercise_completed.after'   => 'onAfterExercise',
+            'tester.suite_tested.before'        => 'onBeforeSuiteTested',
+            'tester.suite_tested.after'         => 'onAfterSuiteTested',
+            'tester.feature_tested.before'      => 'onBeforeFeatureTested',
+            'tester.feature_tested.after'       => 'onAfterFeatureTested',
+            'tester.scenario_tested.before'     => 'onBeforeScenarioTested',
+            'tester.scenario_tested.after'      => 'onAfterScenarioTested',
+            'tester.outline_tested.before'      => 'onBeforeOutlineTested',
+            'tester.outline_tested.after'       => 'onAfterOutlineTested',
+            'tester.step_tested.after'          => 'onAfterStepTested',
         );
     }
 
