@@ -11,15 +11,15 @@ use Behat\Behat\EventDispatcher\Event\BeforeOutlineTested;
 use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
 use Behat\Behat\EventDispatcher\Event\BeforeStepTested;
 use Behat\Behat\Tester\Result\ExecutedStepResult;
+use Behat\Behat\Tester\Result\UndefinedStepResult;
+use Behat\Behat\Tester\Result\SkippedStepResult;
 use Behat\Testwork\Counter\Memory;
 use Behat\Testwork\Counter\Timer;
 use Behat\Testwork\EventDispatcher\Event\AfterExerciseCompleted;
-use Behat\Testwork\EventDispatcher\Event\AfterSuiteTested;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
-use Behat\Testwork\EventDispatcher\Event\BeforeSuiteTested;
 use Behat\Testwork\Output\Exception\BadOutputPathException;
-use Behat\Testwork\Output\Formatter;
 use Behat\Testwork\Output\Printer\OutputPrinter;
+use Behat\Testwork\Tester\Result\TestResult;
 use emuse\BehatHTMLFormatter\Classes\Feature;
 use emuse\BehatHTMLFormatter\Classes\Scenario;
 use emuse\BehatHTMLFormatter\Classes\Step;
@@ -27,7 +27,7 @@ use emuse\BehatHTMLFormatter\Classes\Suite;
 use emuse\BehatHTMLFormatter\Printer\FileOutputPrinter;
 use emuse\BehatHTMLFormatter\Renderer\BaseRenderer;
 
-class JUnitFormatter implements Formatter
+class Formatter implements FormatterInterface
 {
     /**
      * @var array
@@ -256,119 +256,157 @@ class JUnitFormatter implements Formatter
         $this->outputPath = $outpath;
     }
 
+    /**
+     * @return string
+     */
     public function getOutputPath()
     {
         return $this->outputPath;
     }
 
+    /**
+     * @return Timer
+     */
     public function getTimer()
     {
         return $this->timer;
     }
 
+    /**
+     * @return Memory|string
+     */
     public function getMemory()
     {
         return $this->memory;
     }
 
+    /**
+     * @return Suite[]
+     */
     public function getSuites()
     {
         return $this->suites;
     }
 
+    /**
+     * @return Suite
+     */
     public function getCurrentSuite()
     {
         return $this->currentSuite;
     }
 
+    /**
+     * @return int
+     */
     public function getFeatureCounter()
     {
         return $this->featureCounter;
     }
 
+    /**
+     * @return Feature
+     */
     public function getCurrentFeature()
     {
         return $this->currentFeature;
     }
 
+    /**
+     * @return Scenario
+     */
     public function getCurrentScenario()
     {
         return $this->currentScenario;
     }
 
+    /**
+     * @return Scenario[]
+     */
     public function getFailedScenarios()
     {
         return $this->failedScenarios;
     }
 
+    /**
+     * @return Scenario[]
+     */
     public function getPassedScenarios()
     {
         return $this->passedScenarios;
     }
 
+    /**
+     * @return Feature[]
+     */
     public function getFailedFeatures()
     {
         return $this->failedFeatures;
     }
 
+    /**
+     * @return Feature[]
+     */
     public function getPassedFeatures()
     {
         return $this->passedFeatures;
     }
 
+    /**
+     * @return Step[]
+     */
     public function getFailedSteps()
     {
         return $this->failedSteps;
     }
 
+    /**
+     * @return Step[]
+     */
     public function getPassedSteps()
     {
         return $this->passedSteps;
     }
 
+    /**
+     * @return Step[]
+     */
     public function getPendingSteps()
     {
         return $this->pendingSteps;
     }
 
+    /**
+     * @return Step[]
+     */
     public function getSkippedSteps()
     {
         return $this->skippedSteps;
     }
 
     /**
-     * Triggers before running tests
+     * Triggers before running tests.
      *
      * @param BeforeExerciseCompleted $event
      */
     public function onBeforeExercise(BeforeExerciseCompleted $event)
     {
         $this->timer->start();
-
-        // Render main XML structure
     }
 
     /**
-     * Triggers after running tests
+     * Triggers after running tests.
      *
      * @param AfterExerciseCompleted $event
      */
     public function onAfterExercise(AfterExerciseCompleted $event)
     {
         $this->timer->stop();
-
-        // Close XML structure
-        // Send structure to file
     }
 
-    public function onBeforeSuiteTested(BeforeSuiteTested $event)
-    {
-    }
-
-    public function onAfterSuiteTested(AfterSuiteTested $event)
-    {
-    }
-
+    /**
+     * @param BeforeFeatureTested $event
+     */
     public function onBeforeFeatureTested(BeforeFeatureTested $event)
     {
         $feature = new Feature();
@@ -379,10 +417,11 @@ class JUnitFormatter implements Formatter
         $feature->setTags($event->getFeature()->getTags());
         $feature->setFile($event->getFeature()->getFile());
         $this->currentFeature = $feature;
-
-        // Append <testsuite>
     }
 
+    /**
+     * @param AfterFeatureTested $event
+     */
     public function onAfterFeatureTested(AfterFeatureTested $event)
     {
         $this->currentSuite->addFeature($this->currentFeature);
@@ -391,10 +430,11 @@ class JUnitFormatter implements Formatter
         } else {
             $this->failedFeatures[] = $this->currentFeature;
         }
-
-        // Add attributes to <testsuite>
     }
 
+    /**
+     * @param BeforeScenarioTested $event
+     */
     public function onBeforeScenarioTested(BeforeScenarioTested $event)
     {
         $scenario = new Scenario();
@@ -402,11 +442,11 @@ class JUnitFormatter implements Formatter
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
         $this->currentScenario = $scenario;
-
-        // Append <testcase>
-
     }
 
+    /**
+     * @param AfterScenarioTested $event
+     */
     public function onAfterScenarioTested(AfterScenarioTested $event)
     {
         $scenarioPassed = $event->getTestResult()->isPassed();
@@ -421,11 +461,11 @@ class JUnitFormatter implements Formatter
 
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
         $this->currentFeature->addScenario($this->currentScenario);
-
-        // Add attributes to <testcase>
-
     }
 
+    /**
+     * @param BeforeOutlineTested $event
+     */
     public function onBeforeOutlineTested(BeforeOutlineTested $event)
     {
         $scenario = new Scenario();
@@ -433,11 +473,11 @@ class JUnitFormatter implements Formatter
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
         $this->currentScenario = $scenario;
-
-        // @todo Research this feature
-
     }
 
+    /**
+     * @param AfterOutlineTested $event
+     */
     public function onAfterOutlineTested(AfterOutlineTested $event)
     {
         $scenarioPassed = $event->getTestResult()->isPassed();
@@ -452,15 +492,18 @@ class JUnitFormatter implements Formatter
 
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
         $this->currentFeature->addScenario($this->currentScenario);
-
-        // @todo Research this feature
-
     }
 
+    /**
+     * @param BeforeStepTested $event
+     */
     public function onBeforeStepTested(BeforeStepTested $event)
     {
     }
 
+    /**
+     * @param AfterStepTested $event
+     */
     public function onAfterStepTested(AfterStepTested $event)
     {
         $result = $event->getTestResult();
@@ -474,38 +517,48 @@ class JUnitFormatter implements Formatter
         $step->setResult($result);
         $step->setResultCode($result->getResultCode());
 
-        //What is the result of this step ?
-        if (is_a($result, 'Behat\Behat\Tester\Result\UndefinedStepResult')) {
-            //pending step -> no definition to load
-            $this->pendingSteps[] = $step;
-        } else {
-            if (is_a($result, 'Behat\Behat\Tester\Result\SkippedStepResult')) {
-                //skipped step
-                $step->setDefinition($result->getStepDefinition());
-                $this->skippedSteps[] = $step;
-            } else {
-                //failed or passed
-                if ($result instanceof ExecutedStepResult) {
-                    $step->setDefinition($result->getStepDefinition());
-                    $exception = $result->getException();
-                    if ($exception) {
-                        $step->setException($exception->getMessage());
-                        $this->failedSteps[] = $step;
-                    } else {
-                        $this->passedSteps[] = $step;
-                    }
-                }
-            }
-        }
+        $this->processStep($step, $result);
 
         $this->currentScenario->addStep($step);
-
-        // Display messages, errors, etc.
-
     }
 
-    public function printText($text)
+    /**
+     * @param Step       $step
+     * @param TestResult $result
+     */
+    protected function processStep(Step $step, TestResult $result)
     {
-        file_put_contents('php://stdout', $text);
+        // Pended
+        if (is_a($result, UndefinedStepResult::class)) {
+            $this->pendingSteps[] = $step;
+
+            return;
+        }
+
+        // Skipped
+        if (is_a($result, SkippedStepResult::class)) {
+            /* @var SkippedStepResult $result */
+
+            $step->setDefinition($result->getStepDefinition());
+            $this->skippedSteps[] = $step;
+
+            return;
+        }
+
+        // Failed or passed
+        if (is_a($result, ExecutedStepResult::class)) {
+            /* @var ExecutedStepResult $result */
+
+            $step->setDefinition($result->getStepDefinition());
+            $exception = $result->getException();
+            if ($exception) {
+                $step->setException($exception->getMessage());
+                $this->failedSteps[] = $step;
+            } else {
+                $this->passedSteps[] = $step;
+            }
+
+            return;
+        }
     }
 }
