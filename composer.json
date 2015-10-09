@@ -2,12 +2,19 @@
   "require": {
     "php": ">=5.3.0",
     "behat/behat": "~3.0",
-    "emuse/behat-html-formatter": "v0.1.0"
+    "emuse/behat-html-formatter": "v0.1.0",
+    "phpunit/phpunit": "4.*",
+    "jarnaiz/behat-junit-formatter": "dev-master"
   },
   "minimum-stability": "dev",
   "config": {
     "bin-dir": "bin/"
   },
   "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
   }
 }

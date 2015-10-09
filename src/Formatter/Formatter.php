@@ -2,6 +2,7 @@
 
 namespace App\Formatter;
 
+use App\Renderer\JsonRenderer;
 use Behat\Behat\EventDispatcher\Event\AfterFeatureTested;
 use Behat\Behat\EventDispatcher\Event\AfterOutlineTested;
 use Behat\Behat\EventDispatcher\Event\AfterScenarioTested;
@@ -24,8 +25,8 @@ use emuse\BehatHTMLFormatter\Classes\Feature;
 use emuse\BehatHTMLFormatter\Classes\Scenario;
 use emuse\BehatHTMLFormatter\Classes\Step;
 use emuse\BehatHTMLFormatter\Classes\Suite;
-use emuse\BehatHTMLFormatter\Printer\FileOutputPrinter;
-use emuse\BehatHTMLFormatter\Renderer\BaseRenderer;
+use App\Renderer\RendererInterface;
+use jarnaiz\JUnitFormatter\Printer\FileOutputPrinter;
 
 class Formatter implements FormatterInterface
 {
@@ -33,11 +34,6 @@ class Formatter implements FormatterInterface
      * @var array
      */
     private $parameters;
-
-    /**
-     * @var string
-     */
-    private $name;
 
     /**
      * @var Timer
@@ -65,7 +61,7 @@ class Formatter implements FormatterInterface
     private $printer;
 
     /**
-     * @var BaseRenderer
+     * @var RendererInterface
      */
     private $renderer;
 
@@ -133,17 +129,10 @@ class Formatter implements FormatterInterface
      */
     private $skippedSteps;
 
-    /**
-     * @param $name
-     * @param $renderer
-     * @param $filename
-     * @param $base_path
-     */
-    public function __construct($name, $renderer, $filename, $base_path)
+    public function __construct($filename, $outputDir)
     {
-        $this->name = $name;
-        $this->renderer = new BaseRenderer($renderer, $base_path);
-        $this->printer = new FileOutputPrinter($this->renderer->getNameList(), $filename, $base_path);
+        $this->renderer = new JsonRenderer($this);
+        $this->printer = new FileOutputPrinter($filename, $outputDir);
         $this->timer = new Timer();
         $this->memory = new Memory();
     }
@@ -154,28 +143,18 @@ class Formatter implements FormatterInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'tester.exercise_completed.before'  => 'onBeforeExercise',
-            'tester.exercise_completed.after'   => 'onAfterExercise',
-            'tester.suite_tested.before'        => 'onBeforeSuiteTested',
-            'tester.suite_tested.after'         => 'onAfterSuiteTested',
-            'tester.feature_tested.before'      => 'onBeforeFeatureTested',
-            'tester.feature_tested.after'       => 'onAfterFeatureTested',
-            'tester.scenario_tested.before'     => 'onBeforeScenarioTested',
-            'tester.scenario_tested.after'      => 'onAfterScenarioTested',
-            'tester.outline_tested.before'      => 'onBeforeOutlineTested',
-            'tester.outline_tested.after'       => 'onAfterOutlineTested',
-            'tester.step_tested.after'          => 'onAfterStepTested',
+            'tester.exercise_completed.before' => 'onBeforeExercise',
+            'tester.exercise_completed.after' => 'onAfterExercise',
+            'tester.suite_tested.before' => 'onBeforeSuiteTested',
+            'tester.suite_tested.after' => 'onAfterSuiteTested',
+            'tester.feature_tested.before' => 'onBeforeFeatureTested',
+            'tester.feature_tested.after' => 'onAfterFeatureTested',
+            'tester.scenario_tested.before' => 'onBeforeScenarioTested',
+            'tester.scenario_tested.after' => 'onAfterScenarioTested',
+            'tester.outline_tested.before' => 'onBeforeOutlineTested',
+            'tester.outline_tested.after' => 'onAfterOutlineTested',
+            'tester.step_tested.after' => 'onAfterStepTested',
         );
-    }
-
-    /**
-     * Returns formatter name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -185,7 +164,7 @@ class Formatter implements FormatterInterface
      */
     public function getDescription()
     {
-        return 'Formatter for Jenkins';
+        return 'Cucumber style formatter';
     }
 
     /**
@@ -402,6 +381,10 @@ class Formatter implements FormatterInterface
     public function onAfterExercise(AfterExerciseCompleted $event)
     {
         $this->timer->stop();
+
+        // Render and write to file
+        $this->renderer->render();
+        $this->printer->write($this->renderer->getResult());
     }
 
     /**
@@ -522,11 +505,16 @@ class Formatter implements FormatterInterface
         $this->currentScenario->addStep($step);
     }
 
+    public function getName()
+    {
+        return '';
+    }
+
     /**
      * @param Step       $step
      * @param TestResult $result
      */
-    protected function processStep(Step $step, TestResult $result)
+    protected function processStep(Step &$step, TestResult $result)
     {
         // Pended
         if (is_a($result, UndefinedStepResult::class)) {
@@ -561,4 +549,5 @@ class Formatter implements FormatterInterface
             return;
         }
     }
+
 }

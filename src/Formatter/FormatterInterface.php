@@ -3,7 +3,7 @@
 namespace App\Formatter;
 
 use Behat\Testwork\Output\Formatter;
-use emuse\BehatHTMLFormatter\Classes\Suite;
+use App\Node\Suite;
 
 interface FormatterInterface extends Formatter
 {
