@@ -549,5 +549,4 @@ class Formatter implements FormatterInterface
             return;
         }
     }
-
 }

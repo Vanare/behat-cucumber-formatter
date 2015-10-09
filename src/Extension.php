@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class Extension implements ExtensionInterface
 {
-
     public function process(ContainerBuilder $container)
     {
     }
@@ -42,5 +41,4 @@ class Extension implements ExtensionInterface
             ->addTag('output.formatter')
         ;
     }
-
 }
