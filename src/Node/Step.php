@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: nealv
- * Date: 05/01/15
- * Time: 14:39.
- */
 namespace App\Node;
 
 use Behat\Testwork\Tester\Result\TestResult;

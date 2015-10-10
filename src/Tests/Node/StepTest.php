@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: evgenyg
- * Date: 09/10/15
- * Time: 17:55.
- */
 namespace App\Tests\Node;
 
 use App\Node\Step;

@@ -3,29 +3,16 @@
 namespace App\Formatter;
 
 use App\Renderer\JsonRenderer;
-use Behat\Behat\EventDispatcher\Event\AfterFeatureTested;
-use Behat\Behat\EventDispatcher\Event\AfterOutlineTested;
-use Behat\Behat\EventDispatcher\Event\AfterScenarioTested;
-use Behat\Behat\EventDispatcher\Event\AfterStepTested;
-use Behat\Behat\EventDispatcher\Event\BeforeFeatureTested;
-use Behat\Behat\EventDispatcher\Event\BeforeOutlineTested;
-use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
-use Behat\Behat\EventDispatcher\Event\BeforeStepTested;
-use Behat\Behat\Tester\Result\ExecutedStepResult;
-use Behat\Behat\Tester\Result\UndefinedStepResult;
-use Behat\Behat\Tester\Result\SkippedStepResult;
+use App\Node;
+use App\Renderer\RendererInterface;
+use Behat\Behat\EventDispatcher\Event as BehatEvent;
+use Behat\Behat\Tester\Result;
+use Behat\Testwork\EventDispatcher\Event as TestworkEvent;
 use Behat\Testwork\Counter\Memory;
 use Behat\Testwork\Counter\Timer;
-use Behat\Testwork\EventDispatcher\Event\AfterExerciseCompleted;
-use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\Output\Exception\BadOutputPathException;
 use Behat\Testwork\Output\Printer\OutputPrinter;
 use Behat\Testwork\Tester\Result\TestResult;
-use emuse\BehatHTMLFormatter\Classes\Feature;
-use emuse\BehatHTMLFormatter\Classes\Scenario;
-use emuse\BehatHTMLFormatter\Classes\Step;
-use emuse\BehatHTMLFormatter\Classes\Suite;
-use App\Renderer\RendererInterface;
 use jarnaiz\JUnitFormatter\Printer\FileOutputPrinter;
 
 class Formatter implements FormatterInterface
@@ -66,12 +53,12 @@ class Formatter implements FormatterInterface
     private $renderer;
 
     /**
-     * @var Suite[]
+     * @var Node\Suite[]
      */
     private $suites;
 
     /**
-     * @var Suite
+     * @var Node\Suite
      */
     private $currentSuite;
 
@@ -80,55 +67,59 @@ class Formatter implements FormatterInterface
      */
     private $featureCounter = 1;
     /**
-     * @var Feature
+     * @var Node\Feature
      */
     private $currentFeature;
 
     /**
-     * @var Scenario
+     * @var Node\Scenario
      */
     private $currentScenario;
 
     /**
-     * @var Scenario[]
+     * @var Node\Scenario[]
      */
     private $failedScenarios;
 
     /**
-     * @var Scenario[]
+     * @var Node\Scenario[]
      */
     private $passedScenarios;
 
     /**
-     * @var Feature[]
+     * @var Node\Feature[]
      */
     private $failedFeatures;
 
     /**
-     * @var Feature[]
+     * @var Node\Feature[]
      */
     private $passedFeatures;
 
     /**
-     * @var Step[]
+     * @var Node\Step[]
      */
     private $failedSteps;
 
     /**
-     * @var Step[]
+     * @var Node\Step[]
      */
     private $passedSteps;
 
     /**
-     * @var Step[]
+     * @var Node\Step[]
      */
     private $pendingSteps;
 
     /**
-     * @var Step[]
+     * @var Node\Step[]
      */
     private $skippedSteps;
 
+    /**
+     * @param $filename
+     * @param $outputDir
+     */
     public function __construct($filename, $outputDir)
     {
         $this->renderer = new JsonRenderer($this);
@@ -260,7 +251,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Suite[]
+     * @return Node\Suite[]
      */
     public function getSuites()
     {
@@ -268,7 +259,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Suite
+     * @return Node\Suite
      */
     public function getCurrentSuite()
     {
@@ -284,7 +275,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Feature
+     * @return Node\Feature
      */
     public function getCurrentFeature()
     {
@@ -292,7 +283,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Scenario
+     * @return Node\Scenario
      */
     public function getCurrentScenario()
     {
@@ -300,7 +291,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Scenario[]
+     * @return Node\Scenario[]
      */
     public function getFailedScenarios()
     {
@@ -308,7 +299,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Scenario[]
+     * @return Node\Scenario[]
      */
     public function getPassedScenarios()
     {
@@ -316,7 +307,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Feature[]
+     * @return Node\Feature[]
      */
     public function getFailedFeatures()
     {
@@ -324,7 +315,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Feature[]
+     * @return Node\Feature[]
      */
     public function getPassedFeatures()
     {
@@ -332,7 +323,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Step[]
+     * @return Node\Step[]
      */
     public function getFailedSteps()
     {
@@ -340,7 +331,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Step[]
+     * @return Node\Step[]
      */
     public function getPassedSteps()
     {
@@ -348,7 +339,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Step[]
+     * @return Node\Step[]
      */
     public function getPendingSteps()
     {
@@ -356,7 +347,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Step[]
+     * @return Node\Step[]
      */
     public function getSkippedSteps()
     {
@@ -366,9 +357,9 @@ class Formatter implements FormatterInterface
     /**
      * Triggers before running tests.
      *
-     * @param BeforeExerciseCompleted $event
+     * @param TestworkEvent\BeforeExerciseCompleted $event
      */
-    public function onBeforeExercise(BeforeExerciseCompleted $event)
+    public function onBeforeExercise(TestworkEvent\BeforeExerciseCompleted $event)
     {
         $this->timer->start();
     }
@@ -376,9 +367,9 @@ class Formatter implements FormatterInterface
     /**
      * Triggers after running tests.
      *
-     * @param AfterExerciseCompleted $event
+     * @param TestworkEvent\AfterExerciseCompleted $event
      */
-    public function onAfterExercise(AfterExerciseCompleted $event)
+    public function onAfterExercise(TestworkEvent\AfterExerciseCompleted $event)
     {
         $this->timer->stop();
 
@@ -388,11 +379,11 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param BeforeFeatureTested $event
+     * @param BehatEvent\BeforeFeatureTested $event
      */
-    public function onBeforeFeatureTested(BeforeFeatureTested $event)
+    public function onBeforeFeatureTested(BehatEvent\BeforeFeatureTested $event)
     {
-        $feature = new Feature();
+        $feature = new Node\Feature();
         $feature->setId($this->featureCounter);
         ++$this->featureCounter;
         $feature->setName($event->getFeature()->getTitle());
@@ -403,9 +394,9 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param AfterFeatureTested $event
+     * @param BehatEvent\AfterFeatureTested $event
      */
-    public function onAfterFeatureTested(AfterFeatureTested $event)
+    public function onAfterFeatureTested(BehatEvent\AfterFeatureTested $event)
     {
         $this->currentSuite->addFeature($this->currentFeature);
         if ($this->currentFeature->allPassed()) {
@@ -416,11 +407,11 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param BeforeScenarioTested $event
+     * @param BehatEvent\BeforeScenarioTested $event
      */
-    public function onBeforeScenarioTested(BeforeScenarioTested $event)
+    public function onBeforeScenarioTested(BehatEvent\BeforeScenarioTested $event)
     {
-        $scenario = new Scenario();
+        $scenario = new Node\Scenario();
         $scenario->setName($event->getScenario()->getTitle());
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
@@ -428,9 +419,9 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param AfterScenarioTested $event
+     * @param BehatEvent\AfterScenarioTested $event
      */
-    public function onAfterScenarioTested(AfterScenarioTested $event)
+    public function onAfterScenarioTested(BehatEvent\AfterScenarioTested $event)
     {
         $scenarioPassed = $event->getTestResult()->isPassed();
 
@@ -447,11 +438,11 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param BeforeOutlineTested $event
+     * @param BehatEvent\BeforeOutlineTested $event
      */
-    public function onBeforeOutlineTested(BeforeOutlineTested $event)
+    public function onBeforeOutlineTested(BehatEvent\BeforeOutlineTested $event)
     {
-        $scenario = new Scenario();
+        $scenario = new Node\Scenario();
         $scenario->setName($event->getOutline()->getTitle());
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
@@ -459,9 +450,9 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param AfterOutlineTested $event
+     * @param BehatEvent\AfterOutlineTested $event
      */
-    public function onAfterOutlineTested(AfterOutlineTested $event)
+    public function onAfterOutlineTested(BehatEvent\AfterOutlineTested $event)
     {
         $scenarioPassed = $event->getTestResult()->isPassed();
 
@@ -478,21 +469,20 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param BeforeStepTested $event
+     * @param BehatEvent\BeforeStepTested $event
      */
-    public function onBeforeStepTested(BeforeStepTested $event)
+    public function onBeforeStepTested(BehatEvent\BeforeStepTested $event)
     {
     }
 
     /**
-     * @param AfterStepTested $event
+     * @param BehatEvent\AfterStepTested $event
      */
-    public function onAfterStepTested(AfterStepTested $event)
+    public function onAfterStepTested(BehatEvent\AfterStepTested $event)
     {
         $result = $event->getTestResult();
 
-        /** @var Step $step */
-        $step = new Step();
+        $step = new Node\Step();
         $step->setKeyword($event->getStep()->getKeyword());
         $step->setText($event->getStep()->getText());
         $step->setLine($event->getStep()->getLine());
@@ -511,21 +501,20 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param Step       $step
+     * @param Node\Step  $step
      * @param TestResult $result
      */
-    protected function processStep(Step &$step, TestResult $result)
+    protected function processStep(Node\Step &$step, TestResult $result)
     {
         // Pended
-        if (is_a($result, UndefinedStepResult::class)) {
+        if (is_a($result, Result\UndefinedStepResult::class)) {
             $this->pendingSteps[] = $step;
 
             return;
         }
 
         // Skipped
-        if (is_a($result, SkippedStepResult::class)) {
-            /* @var SkippedStepResult $result */
+        if (is_a($result, Result\SkippedStepResult::class)) {
 
             $step->setDefinition($result->getStepDefinition());
             $this->skippedSteps[] = $step;
@@ -534,8 +523,7 @@ class Formatter implements FormatterInterface
         }
 
         // Failed or passed
-        if (is_a($result, ExecutedStepResult::class)) {
-            /* @var ExecutedStepResult $result */
+        if (is_a($result, Result\ExecutedStepResult::class)) {
 
             $step->setDefinition($result->getStepDefinition());
             $exception = $result->getException();
