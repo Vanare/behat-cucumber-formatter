@@ -118,7 +118,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     protected function createFormatter()
     {
-        return new Formatter('/path/to/file', 'filename.json');
+        return new Formatter('filename.json', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'build');
     }
 
     /**
