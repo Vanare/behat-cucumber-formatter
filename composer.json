@@ -1,10 +1,9 @@
 {
   "require": {
-    "php": ">=5.3.0",
+    "php": ">=5.5.0",
     "behat/behat": "~3.0",
-    "emuse/behat-html-formatter": "v0.1.0",
     "phpunit/phpunit": "4.*",
-    "jarnaiz/behat-junit-formatter": "dev-master"
+    "mikey179/vfsStream": "1.6.0"
   },
   "minimum-stability": "dev",
   "config": {

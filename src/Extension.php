@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class Extension implements ExtensionInterface
 {
-
     /**
      * @param ContainerBuilder $container
      */
@@ -44,7 +43,7 @@ class Extension implements ExtensionInterface
 
     /**
      * @param ContainerBuilder $container
-     * @param array $config
+     * @param array            $config
      */
     public function load(ContainerBuilder $container, array $config)
     {

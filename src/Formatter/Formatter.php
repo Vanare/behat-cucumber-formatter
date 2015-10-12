@@ -5,15 +5,14 @@ namespace App\Formatter;
 use App\Renderer\JsonRenderer;
 use App\Node;
 use App\Renderer\RendererInterface;
+use App\Printer\FileOutputPrinter;
 use Behat\Behat\EventDispatcher\Event as BehatEvent;
 use Behat\Behat\Tester\Result;
 use Behat\Testwork\EventDispatcher\Event as TestworkEvent;
 use Behat\Testwork\Counter\Memory;
 use Behat\Testwork\Counter\Timer;
-use Behat\Testwork\Output\Exception\BadOutputPathException;
 use Behat\Testwork\Output\Printer\OutputPrinter;
 use Behat\Testwork\Tester\Result\TestResult;
-use jarnaiz\JUnitFormatter\Printer\FileOutputPrinter;
 
 class Formatter implements FormatterInterface
 {
@@ -31,16 +30,6 @@ class Formatter implements FormatterInterface
      * @var string
      */
     private $memory;
-
-    /**
-     * @var string
-     */
-    private $outputPath;
-
-    /**
-     * @var string
-     */
-    private $base_path;
 
     /**
      * @var OutputPrinter
@@ -192,49 +181,6 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * Verify that the specified output path exists or can be created,
-     * then sets the output path.
-     *
-     * @param String $path Output path relative to %paths.base%
-     *
-     * @throws BadOutputPathException
-     */
-    public function setOutputPath($path)
-    {
-        $outpath = realpath($this->base_path.DIRECTORY_SEPARATOR.$path);
-        if (!file_exists($outpath)) {
-            if (!mkdir($outpath, 0755, true)) {
-                throw new BadOutputPathException(
-                    sprintf(
-                        'Output path %s does not exist and could not be created!',
-                        $outpath
-                    ),
-                    $outpath
-                );
-            }
-        } else {
-            if (!is_dir($outpath)) {
-                throw new BadOutputPathException(
-                    sprintf(
-                        'The argument to `output` is expected to the a directory, but got %s!',
-                        $outpath
-                    ),
-                    $outpath
-                );
-            }
-        }
-        $this->outputPath = $outpath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOutputPath()
-    {
-        return $this->outputPath;
-    }
-
-    /**
      * @return Timer
      */
     public function getTimer()
@@ -288,6 +234,14 @@ class Formatter implements FormatterInterface
     public function getCurrentScenario()
     {
         return $this->currentScenario;
+    }
+
+    /**
+     * @param Node\Scenario $scenario
+     */
+    public function setCurrentScenario(Node\Scenario $scenario)
+    {
+        $this->currentScenario = $scenario;
     }
 
     /**
@@ -373,7 +327,6 @@ class Formatter implements FormatterInterface
     {
         $this->timer->stop();
 
-        // Render and write to file
         $this->renderer->render();
         $this->printer->write($this->renderer->getResult());
     }
@@ -478,7 +431,7 @@ class Formatter implements FormatterInterface
     /**
      * @param BehatEvent\AfterStepTested $event
      */
-    public function onAfterStepTested(BehatEvent\AfterStepTested $event)
+    public function onAfterStepTested(BehatEvent\StepTested $event)
     {
         $result = $event->getTestResult();
 
@@ -504,7 +457,7 @@ class Formatter implements FormatterInterface
      * @param Node\Step  $step
      * @param TestResult $result
      */
-    protected function processStep(Node\Step &$step, TestResult $result)
+    protected function processStep(Node\Step $step, TestResult $result)
     {
         // Pended
         if (is_a($result, Result\UndefinedStepResult::class)) {
@@ -515,7 +468,6 @@ class Formatter implements FormatterInterface
 
         // Skipped
         if (is_a($result, Result\SkippedStepResult::class)) {
-
             $step->setDefinition($result->getStepDefinition());
             $this->skippedSteps[] = $step;
 
@@ -524,7 +476,6 @@ class Formatter implements FormatterInterface
 
         // Failed or passed
         if (is_a($result, Result\ExecutedStepResult::class)) {
-
             $step->setDefinition($result->getStepDefinition());
             $exception = $result->getException();
             if ($exception) {

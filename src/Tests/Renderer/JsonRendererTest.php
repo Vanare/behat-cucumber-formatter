@@ -66,9 +66,9 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @test
      */
-    public function testRenderShouldGenerateValidStructure()
+    public function renderShouldGenerateValidStructure()
     {
         $renderer = $this->createRenderer();
         $renderer->render();
@@ -88,14 +88,14 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
 
         // Feature
         $feature = array_pop($suite);
-        $keys = [ 'uri', 'id', 'keyword', 'name', 'line', 'description', 'elements' ];
+        $keys = ['uri', 'id', 'keyword', 'name', 'line', 'description', 'elements'];
         $this->assertArrayHasKeys($keys, $feature);
         $this->assertTrue(is_array($feature['elements']));
         $this->assertEquals(2, count($feature['elements']));
 
         // Scenario
         $scenario = array_pop($feature['elements']);
-        $keys = [ 'id', 'keyword', 'name', 'line', 'description', 'type', 'steps' ];
+        $keys = ['id', 'keyword', 'name', 'line', 'description', 'type', 'steps'];
         $this->assertArrayHasKeys($keys, $scenario);
         $this->assertTrue(is_array($scenario['steps']));
         $this->assertTrue(is_array($scenario['examples']));
@@ -104,26 +104,26 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
 
         // Step
         $step = array_pop($scenario['steps']);
-        $keys = [ 'keyword', 'name', 'line', 'embeddings', 'match', 'result' ];
+        $keys = ['keyword', 'name', 'line', 'embeddings', 'match', 'result'];
         $this->assertArrayHasKeys($keys, $step);
 
         // Example
         $example = array_pop($scenario['examples']);
-        $keys = [ 'keyword', 'name', 'line', 'description', 'id', 'rows' ];
+        $keys = ['keyword', 'name', 'line', 'description', 'id', 'rows'];
         $this->assertArrayHasKeys($keys, $example);
         $this->assertTrue(is_array($example['rows']));
         $this->assertEquals(2, count($example['rows']));
 
         // ExampleRow
         $row = array_pop($example['rows']);
-        $keys = [ 'cells', 'line', 'id' ];
+        $keys = ['cells', 'line', 'id'];
         $this->assertArrayHasKeys($keys, $row);
     }
 
     /**
-     *
+     * @test
      */
-    public function testGetResultShouldReturnValidJsonString()
+    public function getResultShouldReturnValidJsonString()
     {
         $renderer = $this->createRenderer();
         $renderer->render();
@@ -194,8 +194,8 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $keys
-     * @param array $array
+     * @param array  $keys
+     * @param array  $array
      * @param string $message
      */
     protected function assertArrayHasKeys(array $keys, array $array, $message = '')
@@ -204,5 +204,4 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
             $this->assertArrayHasKey($key, $array, $message);
         }
     }
-
 }

@@ -2,10 +2,10 @@
 
 namespace App\Formatter;
 
-use Behat\Testwork\Output\Formatter;
+use Behat\Testwork\Output\Formatter as FormatterOutputInterface;
 use App\Node\Suite;
 
-interface FormatterInterface extends Formatter
+interface FormatterInterface extends FormatterOutputInterface
 {
     /**
      * @return Suite[]

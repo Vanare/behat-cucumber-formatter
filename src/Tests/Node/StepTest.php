@@ -7,7 +7,10 @@ use Behat\Testwork\Tester\Result\TestResult;
 
 class StepTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetPassedResult()
+    /**
+     * @test
+     */
+    public function getProcessedResultReturnsPassedStructure()
     {
         // Arrange
         $passedResult = $this->getMockBuilder(TestResult::class)->getMock();
@@ -26,7 +29,10 @@ class StepTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('duration', $result);
     }
 
-    public function testGetFailedResult()
+    /**
+     * @test
+     */
+    public function getProcessedResultReturnsFailedStructure()
     {
         // Arrange
         $failedResult = $this->getMockBuilder(TestResult::class)->getMock();
