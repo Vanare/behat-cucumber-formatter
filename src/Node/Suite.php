@@ -1,7 +1,5 @@
 <?php
 
-// @TODO remove BaseSuite
-
 namespace App\Node;
 
 use emuse\BehatHTMLFormatter\Classes\Suite as BaseSuite;

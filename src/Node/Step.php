@@ -1,7 +1,5 @@
 <?php
 
-// @TODO remove BaseStep
-
 namespace App\Node;
 
 use Behat\Testwork\Tester\Result\TestResult;

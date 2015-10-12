@@ -1,7 +1,5 @@
 <?php
 
-// @TODO remove BaseScenario
-
 namespace App\Node;
 
 use emuse\BehatHTMLFormatter\Classes\Scenario as BaseScenario;

@@ -1,7 +1,5 @@
 <?php
 
-// @TODO remove BaseFeature
-
 namespace App\Node;
 
 use emuse\BehatHTMLFormatter\Classes\Feature as BaseFeature;
