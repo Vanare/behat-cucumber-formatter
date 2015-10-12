@@ -5,6 +5,7 @@ namespace App\Tests\Printer;
 use App\Printer\FileOutputPrinter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
 class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
 
@@ -25,7 +26,7 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
     {
         $path = $this->validRoot->url();
 
-        $printer = new FileOutputPrinter('test.json', $path);
+        $printer = $this->createPrinter($path);
 
         $this->assertEquals($path, $printer->getOutputPath());
     }
@@ -37,7 +38,7 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
     {
         $path = $this->validRoot->url() . '/build_666';
 
-        $printer = new FileOutputPrinter('test.json', $path);
+        $printer = $this->createPrinter($path);
 
         $this->assertEquals($path, $printer->getOutputPath());
         $this->assertEquals(0755, $this->validRoot->getChild('build_666')->getPermissions());
@@ -54,7 +55,7 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
 
         $path = $this->validRoot->getChild('secured_folder')->url() . '/build_666';
 
-        $printer = new FileOutputPrinter('test.json', $path);
+        $printer = $this->createPrinter($path);
     }
 
     /**
@@ -68,7 +69,7 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
 
         $path = $this->validRoot->getChild('file.exe')->url();
 
-        $printer = new FileOutputPrinter('test.json', $path);
+        $printer = $this->createPrinter($path);
     }
 
     /**
@@ -76,7 +77,26 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
      */
     public function write()
     {
-        // @TODO Implement this
+        $messages = 'Messages will be here';
+
+        $printer = $this->createPrinter($this->validRoot->url());
+        $printer->write($messages);
+
+        $expectedStructure = vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure();
+
+        // Assert that string was written
+        $this->assertEquals([ 'root' => [ 'test.json' => $messages ] ], $expectedStructure);
+
+    }
+
+    /**
+     * @param $path
+     *
+     * @return FileOutputPrinter
+     */
+    protected function createPrinter($path)
+    {
+        return new FileOutputPrinter('test.json', $path);
     }
 
 }

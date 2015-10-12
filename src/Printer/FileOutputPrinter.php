@@ -3,8 +3,9 @@
 namespace App\Printer;
 
 use Behat\Testwork\Output\Exception\BadOutputPathException;
+use Behat\Testwork\Output\Printer\OutputPrinter as OutputPrinterInterface;
 
-class FileOutputPrinter implements PrinterInterface
+class FileOutputPrinter implements OutputPrinterInterface
 {
 
     /**
