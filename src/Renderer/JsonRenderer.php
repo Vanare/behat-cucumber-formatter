@@ -92,11 +92,11 @@ class JsonRenderer implements RendererInterface
 
     /**
      * @param Node\Scenario $scenario
+     *
      * @return array
      */
     protected function processScenario(Node\Scenario $scenario)
     {
-
         $currentScenario = [
             'id' => $scenario->getId(),
             'keyword' => $scenario->getKeyword(),
@@ -138,6 +138,7 @@ class JsonRenderer implements RendererInterface
 
     /**
      * @param Node\Example $example
+     *
      * @return array
      */
     protected function processExample(Node\Example $example)
@@ -160,6 +161,7 @@ class JsonRenderer implements RendererInterface
 
     /**
      * @param Node\ExampleRow $exampleRow
+     *
      * @return array
      */
     protected function processExampleRow(Node\ExampleRow $exampleRow)
@@ -170,5 +172,4 @@ class JsonRenderer implements RendererInterface
             'line' => $exampleRow->getLine(),
         ];
     }
-
 }

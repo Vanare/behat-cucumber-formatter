@@ -7,8 +7,8 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
-class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
-
+class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @var vfsStreamDirectory
      */
@@ -36,7 +36,7 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
      */
     public function setOutputPathNotExisted()
     {
-        $path = $this->validRoot->url() . '/build_666';
+        $path = $this->validRoot->url().'/build_666';
 
         $printer = $this->createPrinter($path);
 
@@ -53,7 +53,7 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
     {
         vfsStream::newDirectory('secured_folder', 0000)->at($this->validRoot);
 
-        $path = $this->validRoot->getChild('secured_folder')->url() . '/build_666';
+        $path = $this->validRoot->getChild('secured_folder')->url().'/build_666';
 
         $printer = $this->createPrinter($path);
     }
@@ -85,8 +85,7 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
         $expectedStructure = vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure();
 
         // Assert that string was written
-        $this->assertEquals([ 'root' => [ 'test.json' => $messages ] ], $expectedStructure);
-
+        $this->assertEquals(['root' => ['test.json' => $messages]], $expectedStructure);
     }
 
     /**
@@ -98,5 +97,4 @@ class FileOutputPrinterTest extends \PHPUnit_Framework_TestCase {
     {
         return new FileOutputPrinter('test.json', $path);
     }
-
 }

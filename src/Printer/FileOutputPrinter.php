@@ -7,7 +7,6 @@ use Behat\Testwork\Output\Printer\OutputPrinter as OutputPrinterInterface;
 
 class FileOutputPrinter implements OutputPrinterInterface
 {
-
     /**
      * @var string
      */
@@ -136,11 +135,11 @@ class FileOutputPrinter implements OutputPrinterInterface
      * Writes message(s) to output stream.
      *
      * @param string|array $messages message or array of messages
-     * @param bool $append
+     * @param bool         $append
      */
     public function write($messages, $append = false)
     {
-        $file = $this->getOutputPath() . DIRECTORY_SEPARATOR . $this->filename;
+        $file = $this->getOutputPath().DIRECTORY_SEPARATOR.$this->filename;
 
         if ($append) {
             file_put_contents($file, $messages, FILE_APPEND);
