@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Node;
+namespace behatJunitFormatter\Node;
 
 use emuse\BehatHTMLFormatter\Classes\Feature as BaseFeature;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Renderer;
+namespace behatJunitFormatter\Renderer;
 
 interface RendererInterface
 {

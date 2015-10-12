@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Renderer;
+namespace behatJunitFormatter\Renderer;
 
-use App\Formatter\FormatterInterface;
-use App\Node;
+use behatJunitFormatter\Formatter\FormatterInterface;
+use behatJunitFormatter\Node;
 
 class JsonRenderer implements RendererInterface
 {

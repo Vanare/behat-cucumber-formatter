@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Formatter;
+namespace behatJunitFormatter\Tests\Formatter;
 
-use App\Formatter\Formatter;
+use behatJunitFormatter\Formatter\Formatter;
 use Behat\Behat\Definition\SearchResult;
 use Behat\Behat\EventDispatcher\Event\StepTested;
 use Behat\Testwork\Call\Call;
-use App\Node;
+use behatJunitFormatter\Node;
 use Behat\Behat\Tester\Result;
 use Behat\Testwork\Call\CallResult;
 

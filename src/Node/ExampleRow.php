@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Node;
+namespace behatJunitFormatter\Node;
 
 class ExampleRow
 {

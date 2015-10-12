@@ -6,11 +6,11 @@
  * Date: 09/10/15
  * Time: 15:29.
  */
-namespace App\Tests\Renderer;
+namespace behatJunitFormatter\Tests\Renderer;
 
-use App\Node;
-use App\Renderer\JsonRenderer;
-use App\Formatter\FormatterInterface;
+use behatJunitFormatter\Node;
+use behatJunitFormatter\Renderer\JsonRenderer;
+use behatJunitFormatter\Formatter\FormatterInterface;
 
 class JsonRendererTest extends \PHPUnit_Framework_TestCase
 {

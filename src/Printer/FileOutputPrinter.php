@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Printer;
+namespace behatJunitFormatter\Printer;
 
 use Behat\Testwork\Output\Exception\BadOutputPathException;
 use Behat\Testwork\Output\Printer\OutputPrinter as OutputPrinterInterface;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Formatter;
+namespace behatJunitFormatter\Formatter;
 
-use App\Renderer\JsonRenderer;
-use App\Node;
-use App\Renderer\RendererInterface;
-use App\Printer\FileOutputPrinter;
+use behatJunitFormatter\Renderer\JsonRenderer;
+use behatJunitFormatter\Node;
+use behatJunitFormatter\Renderer\RendererInterface;
+use behatJunitFormatter\Printer\FileOutputPrinter;
 use Behat\Behat\EventDispatcher\Event as BehatEvent;
 use Behat\Behat\Tester\Result;
 use Behat\Testwork\EventDispatcher\Event as TestworkEvent;
@@ -332,6 +332,23 @@ class Formatter implements FormatterInterface
     }
 
     /**
+     * @param TestworkEvent\BeforeSuiteTested $event
+     */
+    public function onBeforeSuiteTested(TestworkEvent\BeforeSuiteTested $event)
+    {
+        $this->currentSuite = new Node\Suite();
+        $this->currentSuite->setName($event->getSuite()->getName());
+    }
+
+    /**
+     * @param TestworkEvent\AfterSuiteTested $event
+     */
+    public function onAfterSuiteTested(TestworkEvent\AfterSuiteTested $event)
+    {
+        $this->suites[] = $this->currentSuite;
+    }
+
+    /**
      * @param BehatEvent\BeforeFeatureTested $event
      */
     public function onBeforeFeatureTested(BehatEvent\BeforeFeatureTested $event)
@@ -437,7 +454,7 @@ class Formatter implements FormatterInterface
 
         $step = new Node\Step();
         $step->setKeyword($event->getStep()->getKeyword());
-        $step->setText($event->getStep()->getText());
+        $step->setName($event->getStep()->getText());
         $step->setLine($event->getStep()->getLine());
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
@@ -450,7 +467,7 @@ class Formatter implements FormatterInterface
 
     public function getName()
     {
-        return '';
+        return 'cucumber_json';
     }
 
     /**

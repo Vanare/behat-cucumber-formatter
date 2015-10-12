@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Node;
+namespace behatJunitFormatter\Node;
 
 use Behat\Testwork\Tester\Result\TestResult;
 use emuse\BehatHTMLFormatter\Classes\Step as BaseStep;
