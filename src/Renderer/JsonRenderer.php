@@ -3,6 +3,7 @@
 namespace App\Renderer;
 
 use App\Formatter\FormatterInterface;
+use App\Node;
 
 class JsonRenderer implements RendererInterface
 {
@@ -31,74 +32,7 @@ class JsonRenderer implements RendererInterface
         $suites = $this->formatter->getSuites();
 
         foreach ($suites as $suite) {
-            $currentSuite = [];
-
-            foreach ($suite->getFeatures() as $feature) {
-                $currentFeature = [
-                    'uri' => $feature->getUri(),
-                    'id' => $feature->getId(),
-                    'keyword' => $feature->getKeyword(),
-                    'name' => $feature->getName(),
-                    'line' => $feature->getLine(),
-                    'description' => $feature->getDescription(),
-                    'elements' => [],
-                ];
-
-                foreach ($feature->getScenarios() as $scenario) {
-                    $currentScenario = [
-                        'id' => $scenario->getId(),
-                        'keyword' => $scenario->getKeyword(),
-                        'name' => $scenario->getName(),
-                        'line' => $scenario->getLine(),
-                        'description' => $scenario->getDescription(),
-                        'type' => $scenario->getType(),
-                        'steps' => [],
-                        'examples' => [],
-                    ];
-
-                    foreach ($scenario->getSteps() as $step) {
-                        $currentStep = [
-                            'keyword' => $step->getKeyword(),
-                            'name' => $step->getName(),
-                            'line' => $step->getLine(),
-                            'embeddings' => $step->getEmbeddings(),
-                            'match' => $step->getMatch(),
-                            'result' => $step->getProcessedResult(),
-                        ];
-
-                        array_push($currentScenario['steps'], $currentStep);
-                    }
-
-                    foreach ($scenario->getExamples() as $example) {
-                        $currentExample = [
-                            'keyword' => $example->getKeyword(),
-                            'name' => $example->getName(),
-                            'line' => $example->getLine(),
-                            'description' => $example->getDescription(),
-                            'id' => $example->getId(),
-                            'rows' => [],
-                        ];
-
-                        foreach ($example->getRows() as $row) {
-                            $currentRow = [
-                                'cells' => $row->getCells(),
-                                'id' => $row->getId(),
-                                'line' => $row->getLine(),
-                            ];
-
-                            array_push($currentExample['rows'], $currentRow);
-                        }
-
-                        array_push($currentScenario['examples'], $currentExample);
-                    }
-
-                    array_push($currentFeature['elements'], $currentScenario);
-                }
-
-                array_push($currentSuite, $currentFeature);
-            }
-
-            array_push($this->result, $currentSuite);
+            array_push($this->result, $this->processSuite($suite));
         }
     }
 
@@ -115,4 +49,126 @@ class JsonRenderer implements RendererInterface
 
         return $this->result;
     }
+
+    /**
+     * @param Node\Suite $suite
+     *
+     * @return array
+     */
+    protected function processSuite(Node\Suite $suite)
+    {
+        $currentSuite = [];
+
+        foreach ($suite->getFeatures() as $feature) {
+            array_push($currentSuite, $this->processFeature($feature));
+        }
+
+        return $currentSuite;
+    }
+
+    /**
+     * @param Node\Feature $feature
+     *
+     * @return array
+     */
+    protected function processFeature(Node\Feature $feature)
+    {
+        $currentFeature = [
+            'uri' => $feature->getUri(),
+            'id' => $feature->getId(),
+            'keyword' => $feature->getKeyword(),
+            'name' => $feature->getName(),
+            'line' => $feature->getLine(),
+            'description' => $feature->getDescription(),
+            'elements' => [],
+        ];
+
+        foreach ($feature->getScenarios() as $scenario) {
+            array_push($currentFeature['elements'], $this->processScenario($scenario));
+        }
+
+        return $currentFeature;
+    }
+
+    /**
+     * @param Node\Scenario $scenario
+     * @return array
+     */
+    protected function processScenario(Node\Scenario $scenario)
+    {
+
+        $currentScenario = [
+            'id' => $scenario->getId(),
+            'keyword' => $scenario->getKeyword(),
+            'name' => $scenario->getName(),
+            'line' => $scenario->getLine(),
+            'description' => $scenario->getDescription(),
+            'type' => $scenario->getType(),
+            'steps' => [],
+            'examples' => [],
+        ];
+
+        foreach ($scenario->getSteps() as $step) {
+            array_push($currentScenario['steps'], $this->processStep($step));
+        }
+
+        foreach ($scenario->getExamples() as $example) {
+            array_push($currentScenario['examples'], $this->processExample($example));
+        }
+
+        return $currentScenario;
+    }
+
+    /**
+     * @param Node\Step $step
+     *
+     * @return array
+     */
+    protected function processStep(Node\Step $step)
+    {
+        return [
+            'keyword' => $step->getKeyword(),
+            'name' => $step->getName(),
+            'line' => $step->getLine(),
+            'embeddings' => $step->getEmbeddings(),
+            'match' => $step->getMatch(),
+            'result' => $step->getProcessedResult(),
+        ];
+    }
+
+    /**
+     * @param Node\Example $example
+     * @return array
+     */
+    protected function processExample(Node\Example $example)
+    {
+        $currentExample = [
+            'keyword' => $example->getKeyword(),
+            'name' => $example->getName(),
+            'line' => $example->getLine(),
+            'description' => $example->getDescription(),
+            'id' => $example->getId(),
+            'rows' => [],
+        ];
+
+        foreach ($example->getRows() as $row) {
+            array_push($currentExample['rows'], $this->processExampleRow($row));
+        }
+
+        return $currentExample;
+    }
+
+    /**
+     * @param Node\ExampleRow $exampleRow
+     * @return array
+     */
+    protected function processExampleRow(Node\ExampleRow $exampleRow)
+    {
+        return [
+            'cells' => $exampleRow->getCells(),
+            'id' => $exampleRow->getId(),
+            'line' => $exampleRow->getLine(),
+        ];
+    }
+
 }
