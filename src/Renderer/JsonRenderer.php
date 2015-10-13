@@ -3,7 +3,7 @@
 namespace vanare\BehatJunitFormatter\Renderer;
 
 use vanare\BehatJunitFormatter\Formatter\FormatterInterface;
-use behatJunitFormatter\Node;
+use vanare\BehatJunitFormatter\Node;
 use vanare\BehatJunitFormatter\Renderer\RendererInterface;
 
 class JsonRenderer implements RendererInterface
@@ -52,11 +52,11 @@ class JsonRenderer implements RendererInterface
     }
 
     /**
-     * @param \vanare\BehatJunitFormatter\Node\Suite $suite
+     * @param Node\Suite $suite
      *
      * @return array
      */
-    protected function processSuite(\vanare\BehatJunitFormatter\Node\Suite $suite)
+    protected function processSuite(Node\Suite $suite)
     {
         $currentSuite = [];
 
@@ -68,11 +68,11 @@ class JsonRenderer implements RendererInterface
     }
 
     /**
-     * @param \vanare\BehatJunitFormatter\Node\Feature $feature
+     * @param Node\Feature $feature
      *
      * @return array
      */
-    protected function processFeature(\vanare\BehatJunitFormatter\Node\Feature $feature)
+    protected function processFeature(Node\Feature $feature)
     {
         $currentFeature = [
             'uri' => $feature->getUri(),
@@ -92,11 +92,11 @@ class JsonRenderer implements RendererInterface
     }
 
     /**
-     * @param \vanare\BehatJunitFormatter\Node\Scenario $scenario
+     * @param Node\Scenario $scenario
      *
      * @return array
      */
-    protected function processScenario(\vanare\BehatJunitFormatter\Node\Scenario $scenario)
+    protected function processScenario(Node\Scenario $scenario)
     {
         $currentScenario = [
             'id' => $scenario->getId(),
@@ -121,11 +121,11 @@ class JsonRenderer implements RendererInterface
     }
 
     /**
-     * @param \vanare\BehatJunitFormatter\Node\Step $step
+     * @param Node\Step $step
      *
      * @return array
      */
-    protected function processStep(\vanare\BehatJunitFormatter\Node\Step $step)
+    protected function processStep(Node\Step $step)
     {
         return [
             'keyword' => $step->getKeyword(),
@@ -138,11 +138,11 @@ class JsonRenderer implements RendererInterface
     }
 
     /**
-     * @param \vanare\BehatJunitFormatter\Node\Example $example
+     * @param Node\Example $example
      *
      * @return array
      */
-    protected function processExample(\vanare\BehatJunitFormatter\Node\Example $example)
+    protected function processExample(Node\Example $example)
     {
         $currentExample = [
             'keyword' => $example->getKeyword(),
@@ -161,11 +161,11 @@ class JsonRenderer implements RendererInterface
     }
 
     /**
-     * @param \vanare\BehatJunitFormatter\Node\ExampleRow $exampleRow
+     * @param Node\ExampleRow $exampleRow
      *
      * @return array
      */
-    protected function processExampleRow(\vanare\BehatJunitFormatter\Node\ExampleRow $exampleRow)
+    protected function processExampleRow(Node\ExampleRow $exampleRow)
     {
         return [
             'cells' => $exampleRow->getCells(),
