@@ -1,6 +1,8 @@
 <?php
 
-namespace behatJunitFormatter\Node;
+namespace vanare\BehatJunitFormatter\Node;
+
+use vanare\BehatJunitFormatter\Node\ExampleRow;
 
 class Example
 {

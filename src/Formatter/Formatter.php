@@ -1,11 +1,12 @@
 <?php
 
-namespace behatJunitFormatter\Formatter;
+namespace vanare\BehatJunitFormatter\Formatter;
 
-use behatJunitFormatter\Renderer\JsonRenderer;
-use behatJunitFormatter\Node;
-use behatJunitFormatter\Renderer\RendererInterface;
-use behatJunitFormatter\Printer\FileOutputPrinter;
+use vanare\BehatJunitFormatter\Formatter\FormatterInterface;
+use vanare\BehatJunitFormatter\Renderer\JsonRenderer;
+use vanare\BehatJunitFormatter\Node;
+use vanare\BehatJunitFormatter\Renderer\RendererInterface;
+use vanare\BehatJunitFormatter\Printer\FileOutputPrinter;
 use Behat\Behat\EventDispatcher\Event as BehatEvent;
 use Behat\Behat\Tester\Result;
 use Behat\Testwork\EventDispatcher\Event as TestworkEvent;
@@ -42,12 +43,12 @@ class Formatter implements FormatterInterface
     private $renderer;
 
     /**
-     * @var Node\Suite[]
+     * @var \vanare\BehatJunitFormatter\Node\Suite[]
      */
     private $suites;
 
     /**
-     * @var Node\Suite
+     * @var \vanare\BehatJunitFormatter\Node\Suite
      */
     private $currentSuite;
 
@@ -56,52 +57,52 @@ class Formatter implements FormatterInterface
      */
     private $featureCounter = 1;
     /**
-     * @var Node\Feature
+     * @var \vanare\BehatJunitFormatter\Node\Feature
      */
     private $currentFeature;
 
     /**
-     * @var Node\Scenario
+     * @var \vanare\BehatJunitFormatter\Node\Scenario
      */
     private $currentScenario;
 
     /**
-     * @var Node\Scenario[]
+     * @var \vanare\BehatJunitFormatter\Node\Scenario[]
      */
     private $failedScenarios;
 
     /**
-     * @var Node\Scenario[]
+     * @var \vanare\BehatJunitFormatter\Node\Scenario[]
      */
     private $passedScenarios;
 
     /**
-     * @var Node\Feature[]
+     * @var \vanare\BehatJunitFormatter\Node\Feature[]
      */
     private $failedFeatures;
 
     /**
-     * @var Node\Feature[]
+     * @var \vanare\BehatJunitFormatter\Node\Feature[]
      */
     private $passedFeatures;
 
     /**
-     * @var Node\Step[]
+     * @var \vanare\BehatJunitFormatter\Node\Step[]
      */
     private $failedSteps;
 
     /**
-     * @var Node\Step[]
+     * @var \vanare\BehatJunitFormatter\Node\Step[]
      */
     private $passedSteps;
 
     /**
-     * @var Node\Step[]
+     * @var \vanare\BehatJunitFormatter\Node\Step[]
      */
     private $pendingSteps;
 
     /**
-     * @var Node\Step[]
+     * @var \vanare\BehatJunitFormatter\Node\Step[]
      */
     private $skippedSteps;
 
@@ -197,7 +198,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Suite[]
+     * @return \vanare\BehatJunitFormatter\Node\Suite[]
      */
     public function getSuites()
     {
@@ -205,7 +206,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Suite
+     * @return \vanare\BehatJunitFormatter\Node\Suite
      */
     public function getCurrentSuite()
     {
@@ -221,7 +222,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Feature
+     * @return \vanare\BehatJunitFormatter\Node\Feature
      */
     public function getCurrentFeature()
     {
@@ -229,7 +230,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Scenario
+     * @return \vanare\BehatJunitFormatter\Node\Scenario
      */
     public function getCurrentScenario()
     {
@@ -237,15 +238,15 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param Node\Scenario $scenario
+     * @param \vanare\BehatJunitFormatter\Node\Scenario $scenario
      */
-    public function setCurrentScenario(Node\Scenario $scenario)
+    public function setCurrentScenario(\vanare\BehatJunitFormatter\Node\Scenario $scenario)
     {
         $this->currentScenario = $scenario;
     }
 
     /**
-     * @return Node\Scenario[]
+     * @return \vanare\BehatJunitFormatter\Node\Scenario[]
      */
     public function getFailedScenarios()
     {
@@ -253,7 +254,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Scenario[]
+     * @return \vanare\BehatJunitFormatter\Node\Scenario[]
      */
     public function getPassedScenarios()
     {
@@ -261,7 +262,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Feature[]
+     * @return \vanare\BehatJunitFormatter\Node\Feature[]
      */
     public function getFailedFeatures()
     {
@@ -269,7 +270,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Feature[]
+     * @return \vanare\BehatJunitFormatter\Node\Feature[]
      */
     public function getPassedFeatures()
     {
@@ -277,7 +278,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Step[]
+     * @return \vanare\BehatJunitFormatter\Node\Step[]
      */
     public function getFailedSteps()
     {
@@ -285,7 +286,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Step[]
+     * @return \vanare\BehatJunitFormatter\Node\Step[]
      */
     public function getPassedSteps()
     {
@@ -293,7 +294,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Step[]
+     * @return \vanare\BehatJunitFormatter\Node\Step[]
      */
     public function getPendingSteps()
     {
@@ -301,7 +302,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @return Node\Step[]
+     * @return \vanare\BehatJunitFormatter\Node\Step[]
      */
     public function getSkippedSteps()
     {
@@ -336,7 +337,7 @@ class Formatter implements FormatterInterface
      */
     public function onBeforeSuiteTested(TestworkEvent\BeforeSuiteTested $event)
     {
-        $this->currentSuite = new Node\Suite();
+        $this->currentSuite = new \vanare\BehatJunitFormatter\Node\Suite();
         $this->currentSuite->setName($event->getSuite()->getName());
     }
 
@@ -353,7 +354,7 @@ class Formatter implements FormatterInterface
      */
     public function onBeforeFeatureTested(BehatEvent\BeforeFeatureTested $event)
     {
-        $feature = new Node\Feature();
+        $feature = new \vanare\BehatJunitFormatter\Node\Feature();
         $feature->setId($this->featureCounter);
         ++$this->featureCounter;
         $feature->setName($event->getFeature()->getTitle());
@@ -381,7 +382,7 @@ class Formatter implements FormatterInterface
      */
     public function onBeforeScenarioTested(BehatEvent\BeforeScenarioTested $event)
     {
-        $scenario = new Node\Scenario();
+        $scenario = new \vanare\BehatJunitFormatter\Node\Scenario();
         $scenario->setName($event->getScenario()->getTitle());
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
@@ -412,7 +413,7 @@ class Formatter implements FormatterInterface
      */
     public function onBeforeOutlineTested(BehatEvent\BeforeOutlineTested $event)
     {
-        $scenario = new Node\Scenario();
+        $scenario = new \vanare\BehatJunitFormatter\Node\Scenario();
         $scenario->setName($event->getOutline()->getTitle());
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
@@ -452,7 +453,7 @@ class Formatter implements FormatterInterface
     {
         $result = $event->getTestResult();
 
-        $step = new Node\Step();
+        $step = new \vanare\BehatJunitFormatter\Node\Step();
         $step->setKeyword($event->getStep()->getKeyword());
         $step->setName($event->getStep()->getText());
         $step->setLine($event->getStep()->getLine());
@@ -471,10 +472,10 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param Node\Step  $step
+     * @param \vanare\BehatJunitFormatter\Node\Step  $step
      * @param TestResult $result
      */
-    protected function processStep(Node\Step $step, TestResult $result)
+    protected function processStep(\vanare\BehatJunitFormatter\Node\Step $step, TestResult $result)
     {
         // Pended
         if (is_a($result, Result\UndefinedStepResult::class)) {

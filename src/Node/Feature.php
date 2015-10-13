@@ -1,7 +1,8 @@
 <?php
 
-namespace behatJunitFormatter\Node;
+namespace vanare\BehatJunitFormatter\Node;
 
+use vanare\BehatJunitFormatter\Node\Scenario;
 use emuse\BehatHTMLFormatter\Classes\Feature as BaseFeature;
 
 class Feature extends BaseFeature
@@ -74,6 +75,6 @@ class Feature extends BaseFeature
      */
     public function getScenarios()
     {
-        return parent::getScenarios();
+        return BaseFeature::getScenarios();
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace behatJunitFormatter\Tests\Formatter;
+namespace vanare\BehatJunitFormatter\Tests\Formatter;
 
-use behatJunitFormatter\Formatter\Formatter;
+use vanare\BehatJunitFormatter\Formatter\Formatter;
 use Behat\Behat\Definition\SearchResult;
 use Behat\Behat\EventDispatcher\Event\StepTested;
 use Behat\Testwork\Call\Call;
@@ -127,7 +127,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     protected function createScenario()
     {
         $scenario = $this
-            ->getMockBuilder(Node\Scenario::class)
+            ->getMockBuilder(\vanare\BehatJunitFormatter\Node\Scenario::class)
             ->setMethods(['addStep'])
             ->getMock();
 
@@ -140,7 +140,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     protected function createStep()
     {
         $step = $this
-            ->getMockBuilder(Node\Step::class)
+            ->getMockBuilder(\vanare\BehatJunitFormatter\Node\Step::class)
             ->setMethods([
                 'setDefinition',
                 'setKeyword',

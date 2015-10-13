@@ -6,11 +6,11 @@
  * Date: 09/10/15
  * Time: 15:29.
  */
-namespace behatJunitFormatter\Tests\Renderer;
+namespace vanare\BehatJunitFormatter\Tests\Renderer;
 
 use behatJunitFormatter\Node;
-use behatJunitFormatter\Renderer\JsonRenderer;
-use behatJunitFormatter\Formatter\FormatterInterface;
+use vanare\BehatJunitFormatter\Renderer\JsonRenderer;
+use vanare\BehatJunitFormatter\Formatter\FormatterInterface;
 
 class JsonRendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,12 +54,12 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->step = $this->getMockBuilder(Node\Step::class)->getMock();
-        $this->example = $this->getMockBuilder(Node\Example::class)->getMock();
-        $this->exampleRow = $this->getMockBuilder(Node\ExampleRow::class)->getMock();
-        $this->scenario = $this->getMockBuilder(Node\Scenario::class)->getMock();
-        $this->suite = $this->getMockBuilder(Node\Suite::class)->getMock();
-        $this->feature = $this->getMockBuilder(Node\Feature::class)->getMock();
+        $this->step = $this->getMockBuilder(\vanare\BehatJunitFormatter\Node\Step::class)->getMock();
+        $this->example = $this->getMockBuilder(\vanare\BehatJunitFormatter\Node\Example::class)->getMock();
+        $this->exampleRow = $this->getMockBuilder(\vanare\BehatJunitFormatter\Node\ExampleRow::class)->getMock();
+        $this->scenario = $this->getMockBuilder(\vanare\BehatJunitFormatter\Node\Scenario::class)->getMock();
+        $this->suite = $this->getMockBuilder(\vanare\BehatJunitFormatter\Node\Suite::class)->getMock();
+        $this->feature = $this->getMockBuilder(\vanare\BehatJunitFormatter\Node\Feature::class)->getMock();
         $this->formatter = $this->getMockBuilder(FormatterInterface::class)->getMock();
 
         $this->generateMockStructure();

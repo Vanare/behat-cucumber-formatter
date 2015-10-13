@@ -1,9 +1,9 @@
 <?php
 
-namespace behatJunitFormatter\Formatter;
+namespace vanare\BehatJunitFormatter\Formatter;
 
 use Behat\Testwork\Output\Formatter as FormatterOutputInterface;
-use behatJunitFormatter\Node\Suite;
+use vanare\BehatJunitFormatter\Node\Suite;
 
 interface FormatterInterface extends FormatterOutputInterface
 {

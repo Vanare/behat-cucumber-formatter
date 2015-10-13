@@ -1,8 +1,10 @@
 <?php
 
-namespace behatJunitFormatter\Node;
+namespace vanare\BehatJunitFormatter\Node;
 
+use vanare\BehatJunitFormatter\Node\Step;
 use emuse\BehatHTMLFormatter\Classes\Scenario as BaseScenario;
+use vanare\BehatJunitFormatter\Node\Example;
 
 class Scenario extends BaseScenario
 {
@@ -31,7 +33,7 @@ class Scenario extends BaseScenario
      */
     public function getSteps()
     {
-        return parent::getSteps();
+        return BaseScenario::getSteps();
     }
 
     /**
