@@ -59,7 +59,7 @@ class Feature extends BaseFeature
      */
     public function getUri()
     {
-        return $this->uri;
+        return $this->getFile();
     }
 
     /**
@@ -76,5 +76,13 @@ class Feature extends BaseFeature
     public function getScenarios()
     {
         return BaseFeature::getScenarios();
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return preg_replace('/\s/', '-', mb_strtolower($this->getName(), 'UTF-8'));
     }
 }

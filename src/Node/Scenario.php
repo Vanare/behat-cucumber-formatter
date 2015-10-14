@@ -2,12 +2,16 @@
 
 namespace vanare\BehatJunitFormatter\Node;
 
-use vanare\BehatJunitFormatter\Node\Step;
 use emuse\BehatHTMLFormatter\Classes\Scenario as BaseScenario;
-use vanare\BehatJunitFormatter\Node\Example;
 
 class Scenario extends BaseScenario
 {
+
+    /**
+     * @var Feature
+     */
+    private $feature;
+
     /**
      * @var string
      */
@@ -98,5 +102,33 @@ class Scenario extends BaseScenario
     public function setExamples($examples)
     {
         $this->examples = $examples;
+    }
+
+    /**
+     * @return Feature
+     */
+    public function getFeature()
+    {
+        return $this->feature;
+    }
+
+    /**
+     * @param Feature $feature
+     */
+    public function setFeature($feature)
+    {
+        $this->feature = $feature;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return sprintf(
+            '%s;%s',
+            preg_replace('/\s/', '-', mb_strtolower($this->getName(), 'UTF-8')),
+            $this->getFeature()->getId()
+        );
     }
 }
