@@ -361,6 +361,7 @@ class Formatter implements FormatterInterface
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
         $feature->setFile($event->getFeature()->getFile());
+        $feature->setKeyword($event->getFeature()->getKeyword());
         $this->currentFeature = $feature;
     }
 
@@ -386,6 +387,9 @@ class Formatter implements FormatterInterface
         $scenario->setName($event->getScenario()->getTitle());
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
+        $scenario->setType($event->getScenario()->getNodeType());
+        $scenario->setKeyword($event->getScenario()->getKeyword());
+        $scenario->setFeature($this->currentFeature);
         $this->currentScenario = $scenario;
     }
 
