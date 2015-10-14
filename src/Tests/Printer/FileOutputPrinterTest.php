@@ -1,8 +1,8 @@
 <?php
 
-namespace behatJunitFormatter\Tests\Printer;
+namespace vanare\BehatJunitFormatter\Tests\Printer;
 
-use behatJunitFormatter\Printer\FileOutputPrinter;
+use vanare\BehatJunitFormatter\Printer\FileOutputPrinter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;

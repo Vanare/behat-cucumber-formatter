@@ -1,6 +1,6 @@
 <?php
 
-namespace behatJunitFormatter\Renderer;
+namespace vanare\BehatJunitFormatter\Renderer;
 
 interface RendererInterface
 {

@@ -6,11 +6,11 @@
  * Date: 09/10/15
  * Time: 15:29.
  */
-namespace behatJunitFormatter\Tests\Renderer;
+namespace vanare\BehatJunitFormatter\Tests\Renderer;
 
-use behatJunitFormatter\Node;
-use behatJunitFormatter\Renderer\JsonRenderer;
-use behatJunitFormatter\Formatter\FormatterInterface;
+use vanare\BehatJunitFormatter\Node;
+use vanare\BehatJunitFormatter\Renderer\JsonRenderer;
+use vanare\BehatJunitFormatter\Formatter\FormatterInterface;
 
 class JsonRendererTest extends \PHPUnit_Framework_TestCase
 {

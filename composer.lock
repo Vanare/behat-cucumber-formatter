@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8346e7b9624601341178265f1083e266",
-    "content-hash": "5709974fb8cdadca81c3af30fb510704",
+    "hash": "a394dc1038416fb9a37cb0a619073697",
+    "content-hash": "54ae190f1209b7f0d714ea5f90306c45",
     "packages": [
         {
             "name": "behat/behat",
@@ -1176,12 +1176,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/class-loader.git",
-                "reference": "eb3bfca3cb4134f7f6d33dbb95add9a8fa2cdb36"
+                "reference": "c56d87452d257bfd9c0626a74d42f7d32b89dd12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/class-loader/zipball/eb3bfca3cb4134f7f6d33dbb95add9a8fa2cdb36",
-                "reference": "eb3bfca3cb4134f7f6d33dbb95add9a8fa2cdb36",
+                "url": "https://api.github.com/repos/symfony/class-loader/zipball/c56d87452d257bfd9c0626a74d42f7d32b89dd12",
+                "reference": "c56d87452d257bfd9c0626a74d42f7d32b89dd12",
                 "shasum": ""
             },
             "require": {
@@ -1217,7 +1217,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-11 08:29:26"
+            "time": "2015-10-12 12:43:41"
         },
         {
             "name": "symfony/config",
@@ -1272,12 +1272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "3f8418691d71b6024adbb2a7add9598af5b0494c"
+                "reference": "89a795226477f66745e8ea10415e769304114920"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/3f8418691d71b6024adbb2a7add9598af5b0494c",
-                "reference": "3f8418691d71b6024adbb2a7add9598af5b0494c",
+                "url": "https://api.github.com/repos/symfony/console/zipball/89a795226477f66745e8ea10415e769304114920",
+                "reference": "89a795226477f66745e8ea10415e769304114920",
                 "shasum": ""
             },
             "require": {
@@ -1320,7 +1320,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-11 08:29:26"
+            "time": "2015-10-12 10:31:17"
         },
         {
             "name": "symfony/dependency-injection",
@@ -1387,12 +1387,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "0be7b94be9dc4c5204dd89665bbd2e409738b3e3"
+                "reference": "41899a21d196332ab23e40f76e1276f2b7aa4d0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/0be7b94be9dc4c5204dd89665bbd2e409738b3e3",
-                "reference": "0be7b94be9dc4c5204dd89665bbd2e409738b3e3",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/41899a21d196332ab23e40f76e1276f2b7aa4d0d",
+                "reference": "41899a21d196332ab23e40f76e1276f2b7aa4d0d",
                 "shasum": ""
             },
             "require": {
@@ -1436,7 +1436,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-11 09:12:21"
+            "time": "2015-10-12 10:13:39"
         },
         {
             "name": "symfony/filesystem",
@@ -1550,12 +1550,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "725887b209844abda9d864de722515d0fc13dd75"
+                "reference": "ff7f886a33f5b7a26a94d62f6e14bb9cf0e3bf5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/725887b209844abda9d864de722515d0fc13dd75",
-                "reference": "725887b209844abda9d864de722515d0fc13dd75",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/ff7f886a33f5b7a26a94d62f6e14bb9cf0e3bf5d",
+                "reference": "ff7f886a33f5b7a26a94d62f6e14bb9cf0e3bf5d",
                 "shasum": ""
             },
             "require": {
@@ -1588,7 +1588,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-11 08:29:26"
+            "time": "2015-10-12 11:16:35"
         },
         {
             "name": "twig/twig",
@@ -1596,12 +1596,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e624d0849e1aa729ea7af0af9e7eec2dbfdc4133"
+                "reference": "656ecc0a5ce61c5b030eddb53c9e400fa99ee48a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e624d0849e1aa729ea7af0af9e7eec2dbfdc4133",
-                "reference": "e624d0849e1aa729ea7af0af9e7eec2dbfdc4133",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/656ecc0a5ce61c5b030eddb53c9e400fa99ee48a",
+                "reference": "656ecc0a5ce61c5b030eddb53c9e400fa99ee48a",
                 "shasum": ""
             },
             "require": {
@@ -1649,7 +1649,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-10-12 06:54:22"
+            "time": "2015-10-13 07:16:21"
         }
     ],
     "packages-dev": [],

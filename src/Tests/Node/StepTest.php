@@ -1,8 +1,8 @@
 <?php
 
-namespace behatJunitFormatter\Tests\Node;
+namespace vanare\BehatJunitFormatter\Tests\Node;
 
-use behatJunitFormatter\Node\Step;
+use vanare\BehatJunitFormatter\Node\Step;
 use Behat\Testwork\Tester\Result\TestResult;
 
 class StepTest extends \PHPUnit_Framework_TestCase
