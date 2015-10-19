@@ -77,7 +77,7 @@ class Scenario extends BaseScenario
      */
     public function getType()
     {
-        return $this->type;
+        return mb_strtolower($this->type, 'UTF-8');
     }
 
     /**

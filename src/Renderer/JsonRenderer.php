@@ -127,14 +127,19 @@ class JsonRenderer implements RendererInterface
      */
     protected function processStep(Node\Step $step)
     {
-        return [
+        $result = [
             'keyword' => $step->getKeyword(),
             'name' => $step->getName(),
             'line' => $step->getLine(),
-            'embeddings' => $step->getEmbeddings(),
             'match' => $step->getMatch(),
             'result' => $step->getProcessedResult(),
         ];
+
+        if (count($step->getEmbeddings())) {
+            $result['embeddings'] = $step->getEmbeddings();
+        }
+
+        return $result;
     }
 
     /**
