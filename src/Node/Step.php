@@ -15,7 +15,7 @@ class Step extends BaseStep
     /**
      * @var array
      */
-    private $match = [];
+    private $match = [ 'location' => '' ];
 
     /**
      * @var array

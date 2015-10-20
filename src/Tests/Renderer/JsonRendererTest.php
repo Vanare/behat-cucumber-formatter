@@ -104,7 +104,7 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
 
         // Step
         $step = array_pop($scenario['steps']);
-        $keys = ['keyword', 'name', 'line', 'embeddings', 'match', 'result'];
+        $keys = ['keyword', 'name', 'line', 'match', 'result'];
         $this->assertArrayHasKeys($keys, $step);
 
         // Example
