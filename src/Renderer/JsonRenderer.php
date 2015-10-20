@@ -45,7 +45,7 @@ class JsonRenderer implements RendererInterface
     public function getResult($asString = true)
     {
         if ($asString) {
-            return json_encode($this->result);
+            return json_encode(array_pop($this->result));
         }
 
         return $this->result;
