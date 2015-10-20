@@ -77,6 +77,7 @@ class JsonRenderer implements RendererInterface
         $currentFeature = [
             'uri' => $feature->getUri(),
             'id' => $feature->getId(),
+            'tags' => $feature->getTags() ? $this->processTags($feature->getTags()) : [],
             'keyword' => $feature->getKeyword(),
             'name' => $feature->getName(),
             'line' => $feature->getLine(),
@@ -100,6 +101,7 @@ class JsonRenderer implements RendererInterface
     {
         $currentScenario = [
             'id' => $scenario->getId(),
+            'tags' => $scenario->getTags() ? $this->processTags($scenario->getTags()) : [],
             'keyword' => $scenario->getKeyword(),
             'name' => $scenario->getName(),
             'line' => $scenario->getLine(),
@@ -177,5 +179,22 @@ class JsonRenderer implements RendererInterface
             'id' => $exampleRow->getId(),
             'line' => $exampleRow->getLine(),
         ];
+    }
+
+    /**
+     * @param array $tags
+     * @return array
+     */
+    public function processTags(array $tags)
+    {
+        $result = [];
+
+        foreach ($tags as $tag) {
+            $result[] = [
+                'name' => sprintf('@%s', $tag),
+            ];
+        }
+
+        return $result;
     }
 }
