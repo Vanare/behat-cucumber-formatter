@@ -446,7 +446,7 @@ class Formatter implements FormatterInterface
     /**
      * @param BehatEvent\BeforeStepTested $event
      */
-    public function onBeforeStepTested(BehatEvent\BeforeStepTested $event)
+    public function onBeforeStepTested(BehatEvent\StepTested $event)
     {
         $this->timer->start();
     }
