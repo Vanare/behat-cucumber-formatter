@@ -1,5 +1,5 @@
 {
-  "name": "vanare/behat3-cucumber-json-formatter",
+  "name": "fourxxi/behat-cucumber-json-formatter",
   "require": {
     "php": ">=5.5.0",
     "behat/behat": "~3.0"
@@ -14,7 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "vanare\\Behat3CucumberJsonFormatter\\": "src/"
+      "fourxxi\\BehatCucumberJsonFormatter\\": "src/"
     }
   }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace vanare\Behat3CucumberJsonFormatter\Tests\Node;
+namespace fourxxi\BehatCucumberJsonFormatter\Tests\Node;
 
-use vanare\Behat3CucumberJsonFormatter\Node\Step;
+use fourxxi\BehatCucumberJsonFormatter\Node\Step;
 use Behat\Testwork\Tester\Result\TestResult;
 
 class StepTest extends \PHPUnit_Framework_TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace vanare\Behat3CucumberJsonFormatter\Node;
+namespace fourxxi\BehatCucumberJsonFormatter\Node;
 
 use Behat\Testwork\Tester\Result\TestResult;
 

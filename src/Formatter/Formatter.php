@@ -1,11 +1,11 @@
 <?php
 
-namespace vanare\Behat3CucumberJsonFormatter\Formatter;
+namespace fourxxi\BehatCucumberJsonFormatter\Formatter;
 
-use vanare\Behat3CucumberJsonFormatter\Renderer\JsonRenderer;
-use vanare\Behat3CucumberJsonFormatter\Node;
-use vanare\Behat3CucumberJsonFormatter\Renderer\RendererInterface;
-use vanare\Behat3CucumberJsonFormatter\Printer\FileOutputPrinter;
+use fourxxi\BehatCucumberJsonFormatter\Renderer\JsonRenderer;
+use fourxxi\BehatCucumberJsonFormatter\Node;
+use fourxxi\BehatCucumberJsonFormatter\Renderer\RendererInterface;
+use fourxxi\BehatCucumberJsonFormatter\Printer\FileOutputPrinter;
 use Behat\Behat\EventDispatcher\Event as BehatEvent;
 use Behat\Behat\Tester\Result;
 use Behat\Testwork\EventDispatcher\Event as TestworkEvent;

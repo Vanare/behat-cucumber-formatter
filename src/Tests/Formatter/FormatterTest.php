@@ -1,9 +1,9 @@
 <?php
 
-namespace vanare\Behat3CucumberJsonFormatter\Tests\Formatter;
+namespace fourxxi\BehatCucumberJsonFormatter\Tests\Formatter;
 
-use vanare\Behat3CucumberJsonFormatter\Formatter\Formatter;
-use vanare\Behat3CucumberJsonFormatter\Node;
+use fourxxi\BehatCucumberJsonFormatter\Formatter\Formatter;
+use fourxxi\BehatCucumberJsonFormatter\Node;
 use Behat\Behat\Definition\SearchResult;
 use Behat\Behat\EventDispatcher\Event\StepTested;
 use Behat\Testwork\Call\Call;

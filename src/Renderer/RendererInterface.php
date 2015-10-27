@@ -1,6 +1,6 @@
 <?php
 
-namespace vanare\Behat3CucumberJsonFormatter\Renderer;
+namespace fourxxi\BehatCucumberJsonFormatter\Renderer;
 
 interface RendererInterface
 {

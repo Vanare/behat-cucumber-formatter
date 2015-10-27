@@ -1,6 +1,6 @@
 <?php
 
-namespace vanare\Behat3CucumberJsonFormatter;
+namespace fourxxi\BehatCucumberJsonFormatter;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
@@ -47,7 +47,7 @@ class Extension implements ExtensionInterface
      */
     public function load(ContainerBuilder $container, array $config)
     {
-        $definition = new Definition('vanare\\BehatJunitFormatter\\Formatter\\Formatter');
+        $definition = new Definition('fourxxi\\BehatCucumberJsonFormatter\\Formatter\\Formatter');
 
         $definition->addArgument($config['filename']);
         $definition->addArgument($config['outputDir']);
