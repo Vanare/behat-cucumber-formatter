@@ -28,6 +28,11 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     protected $afterStepTestedEvent;
 
     /**
+     * @var Formatter
+     */
+    protected $formatter;
+
+    /**
      *
      */
     public function setUp()
@@ -35,6 +40,8 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
         $this->step = $this->createStep();
         $this->scenario = $this->createScenario();
         $this->afterStepTestedEvent = $this->createAfterStepTestedEvent();
+        $this->formatter = $this->createFormatter();
+        $this->formatter->onBeforeStepTested($this->createBeforeStepTestedEvent());
     }
 
     /**
@@ -42,8 +49,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function onAfterUndefinedStepTested()
     {
-        $formatter = $this->createFormatter();
-        $formatter->setCurrentScenario($this->scenario);
+        $this->formatter->setCurrentScenario($this->scenario);
 
         $this->afterStepTestedEvent
             ->expects($this->once())
@@ -51,9 +57,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->createUndefinedStepResult()))
         ;
 
-        $formatter->onAfterStepTested($this->afterStepTestedEvent);
+        $this->formatter->onAfterStepTested($this->afterStepTestedEvent);
 
-        $this->assertEquals(1, count($formatter->getPendingSteps()));
+        $this->assertEquals(1, count($this->formatter->getPendingSteps()));
     }
 
     /**
@@ -61,8 +67,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function onAfterSkippedStepTested()
     {
-        $formatter = $this->createFormatter();
-        $formatter->setCurrentScenario($this->scenario);
+        $this->formatter->setCurrentScenario($this->scenario);
 
         $this->afterStepTestedEvent
             ->expects($this->once())
@@ -70,9 +75,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->createSkippedStepResult()))
         ;
 
-        $formatter->onAfterStepTested($this->afterStepTestedEvent);
+        $this->formatter->onAfterStepTested($this->afterStepTestedEvent);
 
-        $this->assertEquals(1, count($formatter->getSkippedSteps()));
+        $this->assertEquals(1, count($this->formatter->getSkippedSteps()));
     }
 
     /**
@@ -80,8 +85,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function onAfterFailedStepTested()
     {
-        $formatter = $this->createFormatter();
-        $formatter->setCurrentScenario($this->scenario);
+        $this->formatter->setCurrentScenario($this->scenario);
 
         $this->afterStepTestedEvent
             ->expects($this->once())
@@ -89,9 +93,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->createFailedStepResult()))
         ;
 
-        $formatter->onAfterStepTested($this->afterStepTestedEvent);
+        $this->formatter->onAfterStepTested($this->afterStepTestedEvent);
 
-        $this->assertEquals(1, count($formatter->getFailedSteps()));
+        $this->assertEquals(1, count($this->formatter->getFailedSteps()));
     }
 
     /**
@@ -99,8 +103,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function onAfterPassedStepTested()
     {
-        $formatter = $this->createFormatter();
-        $formatter->setCurrentScenario($this->scenario);
+        $this->formatter->setCurrentScenario($this->scenario);
 
         $this->afterStepTestedEvent
             ->expects($this->once())
@@ -108,9 +111,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->createPassedStepResult()))
         ;
 
-        $formatter->onAfterStepTested($this->afterStepTestedEvent);
+        $this->formatter->onAfterStepTested($this->afterStepTestedEvent);
 
-        $this->assertEquals(1, count($formatter->getPassedSteps()));
+        $this->assertEquals(1, count($this->formatter->getPassedSteps()));
     }
 
     /**
@@ -169,6 +172,19 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getStep')
             ->will($this->returnValue($this->step));
+
+        return $event;
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createBeforeStepTestedEvent()
+    {
+        $event = $this
+            ->getMockBuilder(StepTested::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         return $event;
     }
