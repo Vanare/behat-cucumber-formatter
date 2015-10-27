@@ -1,8 +1,8 @@
 <?php
 
-namespace vanare\BehatJunitFormatter\Tests\Node;
+namespace vanare\Behat3CucumberJsonFormatter\Tests\Node;
 
-use vanare\BehatJunitFormatter\Node;
+use vanare\Behat3CucumberJsonFormatter\Node;
 
 class FeatureTest extends \PHPUnit_Framework_TestCase
 {

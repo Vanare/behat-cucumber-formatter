@@ -1,6 +1,6 @@
 <?php
 
-namespace vanare\BehatJunitFormatter\Node;
+namespace vanare\Behat3CucumberJsonFormatter\Node;
 
 class ExampleRow
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace vanare\BehatJunitFormatter\Tests\Printer;
+namespace vanare\Behat3CucumberJsonFormatter\Tests\Printer;
 
-use vanare\BehatJunitFormatter\Printer\FileOutputPrinter;
+use vanare\Behat3CucumberJsonFormatter\Printer\FileOutputPrinter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;

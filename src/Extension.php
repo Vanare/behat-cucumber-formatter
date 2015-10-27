@@ -1,6 +1,6 @@
 <?php
 
-namespace vanare\BehatJunitFormatter;
+namespace vanare\Behat3CucumberJsonFormatter;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
