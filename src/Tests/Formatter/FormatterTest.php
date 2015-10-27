@@ -176,6 +176,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
         return $event;
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
     protected function createBeforeStepTestedEvent()
     {
         $event = $this
