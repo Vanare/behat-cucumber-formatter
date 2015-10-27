@@ -6,11 +6,11 @@
  * Date: 09/10/15
  * Time: 15:29.
  */
-namespace behatJunitFormatter\Tests\Renderer;
+namespace Vanare\BehatCucumberJsonFormatter\Tests\Renderer;
 
-use behatJunitFormatter\Node;
-use behatJunitFormatter\Renderer\JsonRenderer;
-use behatJunitFormatter\Formatter\FormatterInterface;
+use Vanare\BehatCucumberJsonFormatter\Node;
+use Vanare\BehatCucumberJsonFormatter\Renderer\JsonRenderer;
+use Vanare\BehatCucumberJsonFormatter\Formatter\FormatterInterface;
 
 class JsonRendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -88,14 +88,14 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
 
         // Feature
         $feature = array_pop($suite);
-        $keys = ['uri', 'id', 'keyword', 'name', 'line', 'description', 'elements'];
+        $keys = ['uri', 'id', 'keyword', 'name', 'line', 'description', 'elements', 'tags'];
         $this->assertArrayHasKeys($keys, $feature);
         $this->assertTrue(is_array($feature['elements']));
         $this->assertEquals(2, count($feature['elements']));
 
         // Scenario
         $scenario = array_pop($feature['elements']);
-        $keys = ['id', 'keyword', 'name', 'line', 'description', 'type', 'steps'];
+        $keys = ['id', 'keyword', 'name', 'line', 'description', 'type', 'steps', 'tags'];
         $this->assertArrayHasKeys($keys, $scenario);
         $this->assertTrue(is_array($scenario['steps']));
         $this->assertTrue(is_array($scenario['examples']));
@@ -104,7 +104,7 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
 
         // Step
         $step = array_pop($scenario['steps']);
-        $keys = ['keyword', 'name', 'line', 'embeddings', 'match', 'result'];
+        $keys = ['keyword', 'name', 'line', 'match', 'result'];
         $this->assertArrayHasKeys($keys, $step);
 
         // Example

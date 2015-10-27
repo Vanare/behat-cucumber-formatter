@@ -1,9 +1,9 @@
 <?php
 
-namespace behatJunitFormatter\Formatter;
+namespace Vanare\BehatCucumberJsonFormatter\Formatter;
 
 use Behat\Testwork\Output\Formatter as FormatterOutputInterface;
-use behatJunitFormatter\Node\Suite;
+use Vanare\BehatCucumberJsonFormatter\Node\Suite;
 
 interface FormatterInterface extends FormatterOutputInterface
 {

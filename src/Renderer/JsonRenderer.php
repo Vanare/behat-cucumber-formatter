@@ -1,9 +1,10 @@
 <?php
 
-namespace behatJunitFormatter\Renderer;
+namespace Vanare\BehatCucumberJsonFormatter\Renderer;
 
-use behatJunitFormatter\Formatter\FormatterInterface;
-use behatJunitFormatter\Node;
+use Vanare\BehatCucumberJsonFormatter\Formatter\FormatterInterface;
+use Vanare\BehatCucumberJsonFormatter\Node;
+use Vanare\BehatCucumberJsonFormatter\Renderer\RendererInterface;
 
 class JsonRenderer implements RendererInterface
 {
@@ -44,7 +45,7 @@ class JsonRenderer implements RendererInterface
     public function getResult($asString = true)
     {
         if ($asString) {
-            return json_encode($this->result);
+            return json_encode(array_pop($this->result));
         }
 
         return $this->result;
@@ -76,6 +77,7 @@ class JsonRenderer implements RendererInterface
         $currentFeature = [
             'uri' => $feature->getUri(),
             'id' => $feature->getId(),
+            'tags' => $feature->getTags() ? $this->processTags($feature->getTags()) : [],
             'keyword' => $feature->getKeyword(),
             'name' => $feature->getName(),
             'line' => $feature->getLine(),
@@ -99,6 +101,7 @@ class JsonRenderer implements RendererInterface
     {
         $currentScenario = [
             'id' => $scenario->getId(),
+            'tags' => $scenario->getTags() ? $this->processTags($scenario->getTags()) : [],
             'keyword' => $scenario->getKeyword(),
             'name' => $scenario->getName(),
             'line' => $scenario->getLine(),
@@ -126,14 +129,19 @@ class JsonRenderer implements RendererInterface
      */
     protected function processStep(Node\Step $step)
     {
-        return [
+        $result = [
             'keyword' => $step->getKeyword(),
             'name' => $step->getName(),
             'line' => $step->getLine(),
-            'embeddings' => $step->getEmbeddings(),
             'match' => $step->getMatch(),
             'result' => $step->getProcessedResult(),
         ];
+
+        if (count($step->getEmbeddings())) {
+            $result['embeddings'] = $step->getEmbeddings();
+        }
+
+        return $result;
     }
 
     /**
@@ -171,5 +179,22 @@ class JsonRenderer implements RendererInterface
             'id' => $exampleRow->getId(),
             'line' => $exampleRow->getLine(),
         ];
+    }
+
+    /**
+     * @param array $tags
+     * @return array
+     */
+    public function processTags(array $tags)
+    {
+        $result = [];
+
+        foreach ($tags as $tag) {
+            $result[] = [
+                'name' => sprintf('@%s', $tag),
+            ];
+        }
+
+        return $result;
     }
 }

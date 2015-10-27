@@ -1,11 +1,11 @@
 <?php
 
-namespace behatJunitFormatter\Formatter;
+namespace Vanare\BehatCucumberJsonFormatter\Formatter;
 
-use behatJunitFormatter\Renderer\JsonRenderer;
-use behatJunitFormatter\Node;
-use behatJunitFormatter\Renderer\RendererInterface;
-use behatJunitFormatter\Printer\FileOutputPrinter;
+use Vanare\BehatCucumberJsonFormatter\Renderer\JsonRenderer;
+use Vanare\BehatCucumberJsonFormatter\Node;
+use Vanare\BehatCucumberJsonFormatter\Renderer\RendererInterface;
+use Vanare\BehatCucumberJsonFormatter\Printer\FileOutputPrinter;
 use Behat\Behat\EventDispatcher\Event as BehatEvent;
 use Behat\Behat\Tester\Result;
 use Behat\Testwork\EventDispatcher\Event as TestworkEvent;
@@ -360,6 +360,7 @@ class Formatter implements FormatterInterface
         $feature->setDescription($event->getFeature()->getDescription());
         $feature->setTags($event->getFeature()->getTags());
         $feature->setFile($event->getFeature()->getFile());
+        $feature->setKeyword($event->getFeature()->getKeyword());
         $this->currentFeature = $feature;
     }
 
@@ -385,6 +386,9 @@ class Formatter implements FormatterInterface
         $scenario->setName($event->getScenario()->getTitle());
         $scenario->setTags($event->getScenario()->getTags());
         $scenario->setLine($event->getScenario()->getLine());
+        $scenario->setType($event->getScenario()->getNodeType());
+        $scenario->setKeyword($event->getScenario()->getKeyword());
+        $scenario->setFeature($this->currentFeature);
         $this->currentScenario = $scenario;
     }
 
@@ -441,8 +445,9 @@ class Formatter implements FormatterInterface
     /**
      * @param BehatEvent\BeforeStepTested $event
      */
-    public function onBeforeStepTested(BehatEvent\BeforeStepTested $event)
+    public function onBeforeStepTested(BehatEvent\StepTested $event)
     {
+        $this->timer->start();
     }
 
     /**
@@ -450,6 +455,8 @@ class Formatter implements FormatterInterface
      */
     public function onAfterStepTested(BehatEvent\StepTested $event)
     {
+        $this->timer->stop();
+
         $result = $event->getTestResult();
 
         $step = new Node\Step();
@@ -459,6 +466,7 @@ class Formatter implements FormatterInterface
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
         $step->setResultCode($result->getResultCode());
+        $step->setDuration($this->timer->getSeconds());
 
         $this->processStep($step, $result);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace behatJunitFormatter\Printer;
+namespace Vanare\BehatCucumberJsonFormatter\Printer;
 
 use Behat\Testwork\Output\Exception\BadOutputPathException;
 use Behat\Testwork\Output\Printer\OutputPrinter as OutputPrinterInterface;

@@ -1,20 +1,20 @@
 {
+  "name": "vanare/behat-cucumber-json-formatter",
   "require": {
     "php": ">=5.5.0",
-    "behat/behat": "~3.0",
-    "phpunit/phpunit": "4.*",
-    "mikey179/vfsStream": "1.6.0",
-    "emuse/behat-html-formatter": "0.1.0"
+    "behat/behat": "~3.0"
   },
   "minimum-stability": "dev",
   "config": {
     "bin-dir": "bin/"
   },
   "require-dev": {
+    "mikey179/vfsStream": "1.6.0",
+    "phpunit/phpunit": "4.*"
   },
   "autoload": {
     "psr-4": {
-      "behatJunitFormatter\\": "src/"
+      "Vanare\\BehatCucumberJsonFormatter\\": "src/"
     }
   }
 }
