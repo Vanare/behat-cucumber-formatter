@@ -448,6 +448,7 @@ class Formatter implements FormatterInterface
      */
     public function onBeforeStepTested(BehatEvent\BeforeStepTested $event)
     {
+        $this->timer->start();
     }
 
     /**
@@ -455,6 +456,8 @@ class Formatter implements FormatterInterface
      */
     public function onAfterStepTested(BehatEvent\StepTested $event)
     {
+        $this->timer->stop();
+
         $result = $event->getTestResult();
 
         $step = new Node\Step();
@@ -464,6 +467,7 @@ class Formatter implements FormatterInterface
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
         $step->setResultCode($result->getResultCode());
+        $step->setDuration($this->timer->getSeconds());
 
         $this->processStep($step, $result);
 

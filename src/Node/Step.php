@@ -23,6 +23,11 @@ class Step extends BaseStep
     private $embeddings = [];
 
     /**
+     * @var int
+     */
+    private $duration = 0;
+
+    /**
      * @var array
      */
     public static $resultLabels = [
@@ -90,7 +95,24 @@ class Step extends BaseStep
         return [
             'status' => static::$resultLabels[$this->getResultCode()],
             'error_message' => $this->getException(),
-            'duration' => 1,
+            'duration' => $this->getDuration() * 1000 * 1000000,
         ];
     }
+
+    /**
+     * @return int
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param int $duration
+     */
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
+    }
+
 }
