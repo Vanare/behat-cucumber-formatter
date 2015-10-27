@@ -6,11 +6,11 @@
  * Date: 09/10/15
  * Time: 15:29.
  */
-namespace fourxxi\BehatCucumberJsonFormatter\Tests\Renderer;
+namespace Vanare\BehatCucumberJsonFormatter\Tests\Renderer;
 
-use fourxxi\BehatCucumberJsonFormatter\Node;
-use fourxxi\BehatCucumberJsonFormatter\Renderer\JsonRenderer;
-use fourxxi\BehatCucumberJsonFormatter\Formatter\FormatterInterface;
+use Vanare\BehatCucumberJsonFormatter\Node;
+use Vanare\BehatCucumberJsonFormatter\Renderer\JsonRenderer;
+use Vanare\BehatCucumberJsonFormatter\Formatter\FormatterInterface;
 
 class JsonRendererTest extends \PHPUnit_Framework_TestCase
 {

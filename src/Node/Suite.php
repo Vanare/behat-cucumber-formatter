@@ -1,6 +1,6 @@
 <?php
 
-namespace fourxxi\BehatCucumberJsonFormatter\Node;
+namespace Vanare\BehatCucumberJsonFormatter\Node;
 
 class Suite
 {

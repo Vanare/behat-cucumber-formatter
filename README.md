@@ -24,7 +24,7 @@ Setup extension by specifying your `behat.yml`:
 ```
 default:
     extensions:
-        fourxxi\BehatCucumberJsonFormatter\Extension:
+        Vanare\BehatCucumberJsonFormatter\Extension:
             filename: report.json
             outputDir: %paths.base%/build/tests
 ```

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace fourxxi\BehatCucumberJsonFormatter\Tests\Node;
+namespace Vanare\BehatCucumberJsonFormatter\Tests\Node;
 
 
-use fourxxi\BehatCucumberJsonFormatter\Node;
+use Vanare\BehatCucumberJsonFormatter\Node;
 
 class ScenarioTest extends \PHPUnit_Framework_TestCase
 {
