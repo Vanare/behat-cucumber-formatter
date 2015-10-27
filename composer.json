@@ -1,9 +1,8 @@
 {
-  "name": "vanare/behat-junit-formatter",
+  "name": "vanare/behat-cucumber-json-formatter",
   "require": {
     "php": ">=5.5.0",
-    "behat/behat": "~3.0",
-    "emuse/behat-html-formatter": "0.1.0"
+    "behat/behat": "~3.0"
   },
   "minimum-stability": "dev",
   "config": {
@@ -15,7 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "vanare\\BehatJunitFormatter\\": "src/"
+      "Vanare\\BehatCucumberJsonFormatter\\": "src/"
     }
   }
 }

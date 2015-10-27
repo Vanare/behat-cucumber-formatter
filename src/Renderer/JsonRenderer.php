@@ -1,10 +1,10 @@
 <?php
 
-namespace vanare\BehatJunitFormatter\Renderer;
+namespace Vanare\BehatCucumberJsonFormatter\Renderer;
 
-use vanare\BehatJunitFormatter\Formatter\FormatterInterface;
-use vanare\BehatJunitFormatter\Node;
-use vanare\BehatJunitFormatter\Renderer\RendererInterface;
+use Vanare\BehatCucumberJsonFormatter\Formatter\FormatterInterface;
+use Vanare\BehatCucumberJsonFormatter\Node;
+use Vanare\BehatCucumberJsonFormatter\Renderer\RendererInterface;
 
 class JsonRenderer implements RendererInterface
 {

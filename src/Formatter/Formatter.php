@@ -1,12 +1,11 @@
 <?php
 
-namespace vanare\BehatJunitFormatter\Formatter;
+namespace Vanare\BehatCucumberJsonFormatter\Formatter;
 
-use vanare\BehatJunitFormatter\Formatter\FormatterInterface;
-use vanare\BehatJunitFormatter\Renderer\JsonRenderer;
-use vanare\BehatJunitFormatter\Node;
-use vanare\BehatJunitFormatter\Renderer\RendererInterface;
-use vanare\BehatJunitFormatter\Printer\FileOutputPrinter;
+use Vanare\BehatCucumberJsonFormatter\Renderer\JsonRenderer;
+use Vanare\BehatCucumberJsonFormatter\Node;
+use Vanare\BehatCucumberJsonFormatter\Renderer\RendererInterface;
+use Vanare\BehatCucumberJsonFormatter\Printer\FileOutputPrinter;
 use Behat\Behat\EventDispatcher\Event as BehatEvent;
 use Behat\Behat\Tester\Result;
 use Behat\Testwork\EventDispatcher\Event as TestworkEvent;
