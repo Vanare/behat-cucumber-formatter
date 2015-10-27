@@ -1,4 +1,4 @@
-# Behat Cucumber Json Formmatter 
+# Behat Cucumber Json Formatter 
 
 [ ![Codeship Status for 4xxi/behat-cucumber-json-formatter](https://codeship.com/projects/7bfc56d0-50fa-0133-3a1b-4adc43044553/status?branch=master)](https://codeship.com/projects/107883)
 
