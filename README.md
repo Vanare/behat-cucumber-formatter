@@ -1,7 +1,6 @@
 # Behat Cucumber Json Formatter 
 
-[ ![Codeship Status for 4xxi/behat-cucumber-json-formatter](https://codeship.com/projects/7bfc56d0-50fa-0133-3a1b-4adc43044553/status?branch=master)](https://codeship.com/projects/107883)
-
+[![Build Status](https://travis-ci.org/adamculp/api-consumer.svg?branch=master)](https://travis-ci.org/adamculp/api-consumer)
 
 This is Behat extension for generating json reports for [Cucumber Test Result Plugin](https://github.com/jenkinsci/cucumber-testresult-plugin/) which provides graphs over time and drill down to individual results using the standard Jenkins test reporting mechanism.
 
@@ -15,8 +14,26 @@ This is Behat extension for generating json reports for [Cucumber Test Result Pl
 
 ### Installation via Composer:
 
+Add following strings to your `composer.json`:
+
 ```
-composer require --dev fourxxi/behat-cucumber-json-formatter
+"repositories": [
+    {
+        "url": "https://github.com/Vanare/behat-cucumber-formatter.git",
+        "type": "git"
+    }
+],
+//...
+"require": {
+    //...
+    "vanare/behat-cucumber-json-formatter": "dev-master",
+},
+```
+
+Then install composer dependencies:
+
+```
+composer install
 ```
 
 ## Usage
