@@ -2,6 +2,7 @@
 
 namespace Vanare\BehatCucumberJsonFormatter\Node;
 
+use Behat\Behat\Tester\Result\StepResult;
 use Behat\Testwork\Tester\Result\TestResult;
 
 class Step
@@ -30,10 +31,11 @@ class Step
      * @var array
      */
     public static $resultLabels = [
-        TestResult::FAILED => 'failed',
-        TestResult::PASSED => 'passed',
-        TestResult::SKIPPED => 'skipped',
-        TestResult::PENDING => 'pending',
+        StepResult::FAILED => 'failed',
+        StepResult::PASSED => 'passed',
+        StepResult::SKIPPED => 'skipped',
+        StepResult::PENDING => 'pending',
+        StepResult::UNDEFINED => 'pending',
     ];
 
     /**
@@ -136,8 +138,14 @@ class Step
      */
     public function getProcessedResult()
     {
+        $status = StepResult::SKIPPED;
+
+        if (!empty(static::$resultLabels[$this->getResultCode()])) {
+            $status = static::$resultLabels[$this->getResultCode()];
+        }
+
         return [
-            'status' => static::$resultLabels[$this->getResultCode()],
+            'status' => $status,
             'error_message' => $this->getException(),
             'duration' => $this->getDuration() * 1000 * 1000000,
         ];
