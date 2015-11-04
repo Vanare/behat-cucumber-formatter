@@ -1,5 +1,17 @@
 {
   "name": "vanare/behat-cucumber-json-formatter",
+  "description": "Behat extension for generating json reports",
+  "keywords": ["behat", "json", "formatter", "cucumber", "jenkins"],
+  "homepage": "https://github.com/Vanare/behat-cucumber-formatter",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vanare Team",
+      "email": "opensource@vanare.com",
+      "homepage": "http://www.vanare.com/",
+      "role": "Developer"
+    }
+  ],
   "require": {
     "php": ">=5.5.0",
     "behat/behat": "~3.0"
