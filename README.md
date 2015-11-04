@@ -14,26 +14,8 @@ This is Behat extension for generating json reports for [Cucumber Test Result Pl
 
 ### Installation via Composer:
 
-Add following strings to your `composer.json`:
-
 ```
-"repositories": [
-    {
-        "url": "https://github.com/Vanare/behat-cucumber-formatter.git",
-        "type": "git"
-    }
-],
-//...
-"require": {
-    //...
-    "vanare/behat-cucumber-json-formatter": "dev-master",
-},
-```
-
-Then install composer dependencies:
-
-```
-composer install
+$ composer require --dev vanare/behat-cucumber-json-formatter
 ```
 
 ## Usage
