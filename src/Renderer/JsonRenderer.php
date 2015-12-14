@@ -32,8 +32,10 @@ class JsonRenderer implements RendererInterface
     {
         $suites = $this->formatter->getSuites();
 
-        foreach ($suites as $suite) {
-            array_push($this->result, $this->processSuite($suite));
+        if (is_array($suites)) {
+            foreach ($suites as $suite) {
+                array_push($this->result, $this->processSuite($suite));
+            }
         }
     }
 
@@ -60,8 +62,10 @@ class JsonRenderer implements RendererInterface
     {
         $currentSuite = [];
 
-        foreach ($suite->getFeatures() as $feature) {
-            array_push($currentSuite, $this->processFeature($feature));
+        if (is_array($suite->getFeatures())) {
+            foreach ($suite->getFeatures() as $feature) {
+                array_push($currentSuite, $this->processFeature($feature));
+            }
         }
 
         return $currentSuite;
@@ -85,8 +89,10 @@ class JsonRenderer implements RendererInterface
             'elements' => [],
         ];
 
-        foreach ($feature->getScenarios() as $scenario) {
-            array_push($currentFeature['elements'], $this->processScenario($scenario));
+        if (is_array($feature->getScenarios())) {
+            foreach ($feature->getScenarios() as $scenario) {
+                array_push($currentFeature['elements'], $this->processScenario($scenario));
+            }
         }
 
         return $currentFeature;
@@ -111,12 +117,16 @@ class JsonRenderer implements RendererInterface
             'examples' => [],
         ];
 
-        foreach ($scenario->getSteps() as $step) {
-            array_push($currentScenario['steps'], $this->processStep($step));
+        if (is_array($scenario->getSteps())) {
+            foreach ($scenario->getSteps() as $step) {
+                array_push($currentScenario['steps'], $this->processStep($step));
+            }
         }
 
-        foreach ($scenario->getExamples() as $example) {
-            array_push($currentScenario['examples'], $this->processExample($example));
+        if (is_array($scenario->getExamples())) {
+            foreach ($scenario->getExamples() as $example) {
+                array_push($currentScenario['examples'], $this->processExample($example));
+            }
         }
 
         return $currentScenario;
@@ -160,8 +170,10 @@ class JsonRenderer implements RendererInterface
             'rows' => [],
         ];
 
-        foreach ($example->getRows() as $row) {
-            array_push($currentExample['rows'], $this->processExampleRow($row));
+        if (is_array($example->getRows())) {
+            foreach ($example->getRows() as $row) {
+                array_push($currentExample['rows'], $this->processExampleRow($row));
+            }
         }
 
         return $currentExample;
