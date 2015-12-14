@@ -61,8 +61,23 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->suite = $this->getMockBuilder(Node\Suite::class)->getMock();
         $this->feature = $this->getMockBuilder(Node\Feature::class)->getMock();
         $this->formatter = $this->getMockBuilder(FormatterInterface::class)->getMock();
+    }
+
+    /**
+     * @test
+     */
+    public function renderShouldNotFailsIfWeGaveEmptyScenariosList()
+    {
+        $this->feature
+            ->expects($this->any())
+            ->method('getScenarios')
+            ->will($this->returnValue(null))
+        ;
 
         $this->generateMockStructure();
+
+        $renderer = $this->createRenderer();
+        $renderer->render();
     }
 
     /**
@@ -70,6 +85,8 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function renderShouldGenerateValidStructure()
     {
+        $this->generateMockStructure();
+
         $renderer = $this->createRenderer();
         $renderer->render();
         $result = $renderer->getResult(false);
@@ -125,6 +142,8 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function getResultShouldReturnValidJsonString()
     {
+        $this->generateMockStructure();
+
         $renderer = $this->createRenderer();
         $renderer->render();
 
