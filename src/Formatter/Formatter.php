@@ -420,6 +420,9 @@ class Formatter implements FormatterInterface
         $scenario->setName($event->getOutline()->getTitle());
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
+        $scenario->setType('scenario');
+        $scenario->setKeyword($event->getOutline()->getKeyword());
+        $scenario->setFeature($this->currentFeature);
         $this->currentScenario = $scenario;
     }
 
@@ -443,7 +446,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param BehatEvent\BeforeStepTested $event
+     * @param BehatEvent\StepTested $event
      */
     public function onBeforeStepTested(BehatEvent\StepTested $event)
     {
@@ -451,7 +454,7 @@ class Formatter implements FormatterInterface
     }
 
     /**
-     * @param BehatEvent\AfterStepTested $event
+     * @param BehatEvent\StepTested $event
      */
     public function onAfterStepTested(BehatEvent\StepTested $event)
     {
