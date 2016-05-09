@@ -150,10 +150,14 @@ class Scenario
      */
     public function getId()
     {
+        $id = '';
+        if($this->getFeature())
+            $id = $this->getFeature()->getId() ?: '';
+            
         return sprintf(
             '%s;%s',
             preg_replace('/\s/', '-', mb_strtolower($this->getName(), 'UTF-8')),
-            $this->getFeature()->getId()
+            $id
         );
     }
 
