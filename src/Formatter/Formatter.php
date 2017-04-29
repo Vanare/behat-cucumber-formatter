@@ -420,6 +420,7 @@ class Formatter implements FormatterInterface
         $scenario->setName($event->getOutline()->getTitle());
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
+        $scenario->setFeature($this->currentFeature);
         $this->currentScenario = $scenario;
     }
 
