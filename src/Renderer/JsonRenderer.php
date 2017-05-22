@@ -47,7 +47,13 @@ class JsonRenderer implements RendererInterface
     public function getResult($asString = true)
     {
         if ($asString) {
-            return json_encode(array_pop($this->result));
+            $mergedResultArray= [];
+
+            while ($suiteResultItem = array_pop($this->result)) {
+                $mergedResultArray = array_merge($mergedResultArray, $suiteResultItem);
+            }
+
+            return json_encode($mergedResultArray);
         }
 
         return $this->result;
