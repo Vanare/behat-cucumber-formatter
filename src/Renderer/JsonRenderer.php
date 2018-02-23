@@ -217,12 +217,16 @@ class JsonRenderer implements RendererInterface
     }
 
     /**
-     * @param array $arguments
+     * @param mixed $arguments
      *
-     * @return array
+     * @return mixed
      */
-    protected function processArguments(array $arguments)
+    protected function processArguments($arguments)
     {
+        if (false === is_array($arguments)) {
+            return $arguments;
+        }
+
         return array_map(function ($argument) {
             return (string) $argument;
         }, $arguments);
