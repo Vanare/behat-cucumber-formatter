@@ -4,7 +4,6 @@ namespace Vanare\BehatCucumberJsonFormatter\Renderer;
 
 use Vanare\BehatCucumberJsonFormatter\Formatter\FormatterInterface;
 use Vanare\BehatCucumberJsonFormatter\Node;
-use Vanare\BehatCucumberJsonFormatter\Renderer\RendererInterface;
 
 class JsonRenderer implements RendererInterface
 {
@@ -151,6 +150,7 @@ class JsonRenderer implements RendererInterface
             'line' => $step->getLine(),
             'match' => $step->getMatch(),
             'result' => $step->getProcessedResult(),
+            'arguments' => $this->processArguments($step->getArguments()),
         ];
 
         if (count($step->getEmbeddings())) {
@@ -214,5 +214,17 @@ class JsonRenderer implements RendererInterface
         }
 
         return $result;
+    }
+
+    /**
+     * @param array $arguments
+     *
+     * @return array
+     */
+    protected function processArguments(array $arguments)
+    {
+        return array_map(function ($argument) {
+            return (string) $argument;
+        }, $arguments);
     }
 }
