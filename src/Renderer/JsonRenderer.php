@@ -34,7 +34,9 @@ class JsonRenderer implements RendererInterface
 
         if (is_array($suites)) {
             foreach ($suites as $suite) {
-                array_push($this->result, $this->processSuite($suite));
+                if (!empty($this->processSuite($suite))) {
+                    array_push($this->result, $this->processSuite($suite));
+                }
             }
         }
     }
