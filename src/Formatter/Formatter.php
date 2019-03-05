@@ -133,6 +133,7 @@ class Formatter implements FormatterInterface
             'tester.scenario_tested.after' => 'onAfterScenarioTested',
             'tester.outline_tested.before' => 'onBeforeOutlineTested',
             'tester.outline_tested.after' => 'onAfterOutlineTested',
+            'tester.step_tested.before' => 'onBeforeStepTested',
             'tester.step_tested.after' => 'onAfterStepTested',
         );
     }
@@ -416,13 +417,16 @@ class Formatter implements FormatterInterface
      */
     public function onBeforeOutlineTested(BehatEvent\BeforeOutlineTested $event)
     {
-        $scenario = new Node\Scenario();
+        $scenario = new Node\ScenarioOutline();
+        $scenarioSteps = count($event->getFeature()->getBackground()->getSteps()) + count($event->getOutline()->getSteps());
+        $scenario->setScenarioStepCount($scenarioSteps);
         $scenario->setName($event->getOutline()->getTitle());
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
         $scenario->setType($event->getOutline()->getNodeType());
         $scenario->setKeyword($event->getOutline()->getKeyword());
         $scenario->setFeature($this->currentFeature);
+        $scenario->setExamples($event->getOutline()->getExamples());
         $this->currentScenario = $scenario;
     }
 
@@ -431,18 +435,21 @@ class Formatter implements FormatterInterface
      */
     public function onAfterOutlineTested(BehatEvent\AfterOutlineTested $event)
     {
-        $scenarioPassed = $event->getTestResult()->isPassed();
+        foreach ($this->currentScenario->getScenarios() as $scenario) {
+          $scenarioPassed = $event->getTestResult()->isPassed();
 
-        if ($scenarioPassed) {
+          if ($scenarioPassed) {
             $this->passedScenarios[] = $this->currentScenario;
             $this->currentFeature->addPassedScenario();
-        } else {
+          } else {
             $this->failedScenarios[] = $this->currentScenario;
             $this->currentFeature->addFailedScenario();
+          }
+
+          $this->currentScenario->setPassed($event->getTestResult()->isPassed());
+          $this->currentFeature->addScenario($scenario);
         }
 
-        $this->currentScenario->setPassed($event->getTestResult()->isPassed());
-        $this->currentFeature->addScenario($this->currentScenario);
     }
 
     /**
