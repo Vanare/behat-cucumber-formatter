@@ -418,7 +418,11 @@ class Formatter implements FormatterInterface
     public function onBeforeOutlineTested(BehatEvent\BeforeOutlineTested $event)
     {
         $scenario = new Node\ScenarioOutline();
-        $scenarioSteps = count($event->getFeature()->getBackground()->getSteps()) + count($event->getOutline()->getSteps());
+
+        $scenarioSteps = ($event->getFeature()->hasBackground() && $event->getFeature()->getBackground()->hasSteps()) ?
+          count($event->getFeature()->getBackground()->getSteps()) : 0;
+        $scenarioSteps += ($event->getOutline()->hasSteps()) ? count($event->getOutline()->getSteps()) : 0;
+
         $scenario->setScenarioStepCount($scenarioSteps);
         $scenario->setName($event->getOutline()->getTitle());
         $scenario->setTags($event->getOutline()->getTags());

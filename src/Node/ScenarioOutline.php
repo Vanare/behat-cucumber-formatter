@@ -33,7 +33,7 @@ class ScenarioOutline
     private $examples = [];
 
   /**
-   * @var Scenarios[]
+   * @var Scenario[]
    */
     private $scenarios = [];
 
@@ -324,7 +324,7 @@ class ScenarioOutline
    */
     public function createScenario() {
         $scenario = new Scenario();
-        $scenario->setName($this>$this->getName() . ";;{$this->exampleCounter}" );
+        $scenario->setName($this->getName() . ";;{$this->exampleCounter}" );
         $scenario->setTags($this->getTags());
         $scenario->setLine($this->getLine());
         $scenario->setType($this->getType());
