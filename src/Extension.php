@@ -39,6 +39,7 @@ class Extension implements ExtensionInterface
     {
         $builder->children()->scalarNode('filename')->defaultValue('report.json');
         $builder->children()->scalarNode('outputDir')->defaultValue('build/tests');
+        $builder->children()->booleanNode('enableExtraExceptionData')->defaultFalse();
     }
 
     /**
@@ -51,6 +52,7 @@ class Extension implements ExtensionInterface
 
         $definition->addArgument($config['filename']);
         $definition->addArgument($config['outputDir']);
+        $definition->addArgument($config['enableExtraExceptionData']);
 
         $container
             ->setDefinition('json.formatter', $definition)

@@ -28,6 +28,7 @@ default:
         Vanare\BehatCucumberJsonFormatter\Extension:
             filename: report.json
             outputDir: %paths.base%/build/tests
+            enableExtraExceptionData: false
 ```
 
 Then you can run:
@@ -40,6 +41,8 @@ bin/behat -f cucumber_json
 
 - `filename`: Filename of generated report
 - `outputDir`: Generated report will be placed in this directory
+- `enableExtraExceptionData`: Add extra exception data to the report in case the thrown exception  
+  implements: `Vanare\BehatCucumberJsonFormatter\Exception\EnrichedExceptionInterface`
 
 ## Licence
 

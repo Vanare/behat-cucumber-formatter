@@ -105,16 +105,21 @@ class Formatter implements FormatterInterface
      */
     private $skippedSteps;
 
+    /** @var bool */
+    private $enableExtraExceptionData;
+
     /**
      * @param $filename
      * @param $outputDir
+     * @param bool $enableExtraExceptionData
      */
-    public function __construct($filename, $outputDir)
+    public function __construct($filename, $outputDir, $enableExtraExceptionData = false)
     {
         $this->renderer = new JsonRenderer($this);
         $this->printer = new FileOutputPrinter($filename, $outputDir);
         $this->timer = new Timer();
         $this->memory = new Memory();
+        $this->enableExtraExceptionData = $enableExtraExceptionData;
     }
 
     /**
@@ -462,7 +467,7 @@ class Formatter implements FormatterInterface
 
         $result = $event->getTestResult();
 
-        $step = new Node\Step();
+        $step = new Node\Step($this->enableExtraExceptionData);
         $step->setKeyword($event->getStep()->getKeyword());
         $step->setName($event->getStep()->getText());
         $step->setLine($event->getStep()->getLine());
@@ -503,11 +508,11 @@ class Formatter implements FormatterInterface
         }
 
         // Failed or passed
-        if (is_a($result, Result\ExecutedStepResult::class)) {
+        if ($result instanceof Result\ExecutedStepResult) {
             $step->setDefinition($result->getStepDefinition());
             $exception = $result->getException();
             if ($exception) {
-                $step->setException($exception->getMessage());
+                $step->setException($exception);
                 $this->failedSteps[] = $step;
             } else {
                 $this->passedSteps[] = $step;

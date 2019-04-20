@@ -3,7 +3,7 @@
 namespace Vanare\BehatCucumberJsonFormatter\Node;
 
 use Behat\Behat\Tester\Result\StepResult;
-use Behat\Testwork\Tester\Result\TestResult;
+use Vanare\BehatCucumberJsonFormatter\Exception\EnrichedExceptionInterface;
 
 class Step
 {
@@ -84,6 +84,19 @@ class Step
     private $definition;
 
     /**
+     * @var bool
+     */
+    private $enableExtraExceptionData;
+
+    /**
+     * @param bool $enableExtraExceptionData
+     */
+    public function __construct($enableExtraExceptionData = false)
+    {
+        $this->enableExtraExceptionData = $enableExtraExceptionData;
+    }
+
+    /**
      * @return mixed
      */
     public function getName()
@@ -144,11 +157,20 @@ class Step
             $status = static::$resultLabels[$this->getResultCode()];
         }
 
-        return [
+        $exception = $this->getException();
+
+        $result = [
             'status' => $status,
-            'error_message' => $this->getException(),
-            'duration' => $this->getDuration() * 1000 * 1000000,
+            'error_message' => $exception instanceof \Exception ? $exception->getMessage() : null
         ];
+
+        if ($this->enableExtraExceptionData && $exception instanceof EnrichedExceptionInterface) {
+            $result['error_extra_data'] = $exception->getExtraData();
+        }
+
+        $result['duration'] = $this->getDuration() * 1000 * 1000000;
+
+        return $result;
     }
 
     /**
