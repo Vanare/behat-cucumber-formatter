@@ -5,7 +5,7 @@ namespace Vanare\BehatCucumberJsonFormatter\Exception;
 interface EnrichedExceptionInterface
 {
     /**
-     * @return mixed
+     * @return null|string
      */
-    public function getExtraData();
+    public function getExtraMessage();
 }

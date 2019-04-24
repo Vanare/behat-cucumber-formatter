@@ -152,25 +152,27 @@ class Step
     public function getProcessedResult()
     {
         $status = StepResult::SKIPPED;
-
         if (!empty(static::$resultLabels[$this->getResultCode()])) {
             $status = static::$resultLabels[$this->getResultCode()];
         }
 
+        $errorMessage = null;
         $exception = $this->getException();
-
-        $result = [
-            'status' => $status,
-            'error_message' => $exception instanceof \Exception ? $exception->getMessage() : null
-        ];
-
-        if ($this->enableExtraExceptionData && $exception instanceof EnrichedExceptionInterface) {
-            $result['error_extra_data'] = $exception->getExtraData();
+        if ($exception instanceof \Exception && !empty($exception->getMessage())) {
+            $errorMessage = $exception->getMessage();
+        }
+        if ($this->enableExtraExceptionData
+            && $exception instanceof EnrichedExceptionInterface
+            && !empty($exception->getExtraMessage())
+        ) {
+            $errorMessage .= (empty($errorMessage) ? '' : ': ' . PHP_EOL . PHP_EOL) . $exception->getExtraMessage();
         }
 
-        $result['duration'] = $this->getDuration() * 1000 * 1000000;
-
-        return $result;
+        return [
+            'status' => $status,
+            'error_message' => $errorMessage,
+            'duration' => $this->getDuration() * 1000 * 1000000
+        ];
     }
 
     /**

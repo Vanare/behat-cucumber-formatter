@@ -8,9 +8,29 @@ use Behat\Testwork\Tester\Result\TestResult;
 
 class TestException extends \Exception implements EnrichedExceptionInterface
 {
-    public function getExtraData()
+    /** @var bool */
+    private $returnExtraMessage;
+
+    public function __construct($message, $returnExtraMessage = true)
     {
-        return ['extra' => ['key' => 'value']];
+        parent::__construct($message);
+        $this->returnExtraMessage = $returnExtraMessage;
+    }
+
+    public function getExtraMessage()
+    {
+        if (!$this->returnExtraMessage) {
+            return '';
+        }
+
+        return <<<JSON
+{
+  "extra": {
+    "key": "value"
+  }
+}
+JSON;
+
     }
 }
 
@@ -57,7 +77,6 @@ class StepTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Step::$resultLabels[$resultCode], $result['status']);
         $this->assertArrayHasKey('error_message', $result);
         $this->assertNull($result['error_message']);
-        $this->assertArrayNotHasKey('error_extra_data', $result);
         $this->assertArrayHasKey('duration', $result);
     }
 
@@ -78,8 +97,6 @@ class StepTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('status', $result);
         $this->assertArrayHasKey('error_message', $result);
         $this->assertArrayHasKey('duration', $result);
-
-        $this->assertArrayNotHasKey('error_extra_data', $result);
         $this->assertNull($result['error_message']);
     }
 
@@ -100,8 +117,6 @@ class StepTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('status', $result);
         $this->assertArrayHasKey('error_message', $result);
         $this->assertArrayHasKey('duration', $result);
-
-        $this->assertArrayNotHasKey('error_extra_data', $result);
         $this->assertEquals('Test message 1', $result['error_message']);
     }
 
@@ -121,11 +136,68 @@ class StepTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('status', $result);
         $this->assertArrayHasKey('error_message', $result);
-        $this->assertArrayHasKey('error_extra_data', $result);
         $this->assertArrayHasKey('duration', $result);
+        $this->assertEquals("Test message 2: \n\n{\n  \"extra\": {\n    \"key\": \"value\"\n  }\n}", $result['error_message']);
+    }
 
-        $this->assertEquals('Test message 2', $result['error_message']);
-        $this->assertEquals(['extra' => ['key' => 'value']], $result['error_extra_data']);
+    /**
+     * @test
+     */
+    public function getProcessedResultReturnsFailedStructureWithoutMessageButWithExtraDataBecauseEnrichedExceptionIsGiven()
+    {
+        $failedResult = $this->getMockBuilder(TestResult::class)->getMock();
+
+        // Act
+        $resultCode = TestResult::FAILED;
+        $step = $this->createStep($failedResult, $resultCode, new TestException(''), true);
+        $result = $step->getProcessedResult();
+
+        // Assert
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('status', $result);
+        $this->assertArrayHasKey('error_message', $result);
+        $this->assertArrayHasKey('duration', $result);
+        $this->assertEquals("{\n  \"extra\": {\n    \"key\": \"value\"\n  }\n}", $result['error_message']);
+    }
+
+    /**
+     * @test
+     */
+    public function getProcessedResultReturnsFailedStructureWithMessageButWithEmptyExtraDataBecauseEnrichedExceptionIsGiven()
+    {
+        $failedResult = $this->getMockBuilder(TestResult::class)->getMock();
+
+        // Act
+        $resultCode = TestResult::FAILED;
+        $step = $this->createStep($failedResult, $resultCode, new TestException('Test message 3', false), true);
+        $result = $step->getProcessedResult();
+
+        // Assert
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('status', $result);
+        $this->assertArrayHasKey('error_message', $result);
+        $this->assertArrayHasKey('duration', $result);
+        $this->assertEquals('Test message 3', $result['error_message']);
+    }
+
+    /**
+     * @test
+     */
+    public function getProcessedResultReturnsFailedStructureWithoutMessageButWithEmptyExtraDataBecauseEnrichedExceptionIsGiven()
+    {
+        $failedResult = $this->getMockBuilder(TestResult::class)->getMock();
+
+        // Act
+        $resultCode = TestResult::FAILED;
+        $step = $this->createStep($failedResult, $resultCode, new TestException('', false), true);
+        $result = $step->getProcessedResult();
+
+        // Assert
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('status', $result);
+        $this->assertArrayHasKey('error_message', $result);
+        $this->assertArrayHasKey('duration', $result);
+        $this->assertNull($result['error_message']);
     }
 
     /**
@@ -137,7 +209,7 @@ class StepTest extends \PHPUnit_Framework_TestCase
 
         // Act
         $resultCode = TestResult::FAILED;
-        $step = $this->createStep($failedResult, $resultCode, new TestException('Test message 3'));
+        $step = $this->createStep($failedResult, $resultCode, new TestException('Test message 4'));
         $result = $step->getProcessedResult();
 
         // Assert
@@ -145,9 +217,7 @@ class StepTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('status', $result);
         $this->assertArrayHasKey('error_message', $result);
         $this->assertArrayHasKey('duration', $result);
-
-        $this->assertArrayNotHasKey('error_extra_data', $result);
-        $this->assertEquals('Test message 3', $result['error_message']);
+        $this->assertEquals('Test message 4', $result['error_message']);
     }
 
     /**
